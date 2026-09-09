@@ -157,4 +157,39 @@ async function seedSessions(
       profile_b: b,
     }),
   );
+  const lastSession = await must(
+    'last-session',
+    admin
+      .from('mastermind_sessions')
+      .select('id')
+      .eq('chapter_id', chapterId)
+      .order('held_at', { ascending: false })
+      .limit(1)
+      .single(),
+  );
+  await must(
+    'daniel-completed',
+    admin.from('accountability_actions').insert({
+      session_id: lastSession.id,
+      chapter_id: chapterId,
+      owner_id: danielId,
+      partner_id: graceId,
+      description: 'Call two expired-listing owners this week',
+      due_date: '2026-09-08',
+      status: 'COMPLETED',
+      completed_at: '2026-09-08T16:00:00+03:00',
+    }),
+  );
+  await must(
+    'daniel-overdue',
+    admin.from('accountability_actions').insert({
+      session_id: lastSession.id,
+      chapter_id: chapterId,
+      owner_id: danielId,
+      partner_id: graceId,
+      description: 'Send the Lavington CMA follow-up pack',
+      due_date: '2026-09-05',
+      status: 'OVERDUE',
+    }),
+  );
 }
