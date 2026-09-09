@@ -82,11 +82,17 @@ const eslintConfig = [
       'src/server/admin/**/*.{ts,tsx}',
       'src/app/api/webhooks/**/*.{ts,tsx}',
       'src/app/api/cron/**/*.{ts,tsx}',
-      'supabase/seed.ts',
     ],
     rules: {
       'no-restricted-imports': 'off',
       'no-restricted-syntax': ['error', leadsSyntax, moneySyntax],
+    },
+  },
+  {
+    files: ['supabase/seed.ts', 'supabase/seed/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
+      'no-restricted-syntax': ['error', moneySyntax],
     },
   },
   {

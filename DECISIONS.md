@@ -21,3 +21,8 @@ Choices made under Section 0.4 of the Cursor execution plan. Open items from Sec
 8. Pairing cadence is per cycle.
 9. M-Pesa uses one shared paybill until the human configures otherwise; C2B matching stays conservative (no guessed allocations).
 10. A leaving member is deactivated; grants where they are the grantee are revoked; their own leads and grants they gave are retained; contribution history is kept; they are excluded from chapter averages.
+
+## Seed
+
+- **`supabase/seed.ts` may write the `leads` table.** The repository does not exist until Phase 3, and seed is not a runtime read path. ESLint allows `.from('leads')` in `supabase/seed.ts` only. The invitation trigger is disabled while seed creates the first profiles, because `invitations.invited_by` requires an existing profile. `supabase db query` cannot disable `auth.users` triggers (not table owner), so seed uses `docker exec` as `supabase_admin` on the local `supabase_db_*` container.
+- Seed helpers live under `supabase/seed/` so `seed.ts` stays under the file-length ceiling.

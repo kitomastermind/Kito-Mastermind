@@ -13,7 +13,19 @@ Handoff document for the human operator. The agent writes migrations, auth paths
 cd kito-mastermind
 cp .env.example .env.local
 pnpm install
+pnpm exec supabase start
+pnpm seed
 ```
+
+Demo accounts (local seed only) share the password `Kito-Demo-2026!`.
+
+| Email | Role |
+|---|---|
+| `grace.wanjiru@kito.test` | Treasurer (primary demo) |
+| `daniel.otieno@kito.test` | Member, Grace's partner |
+| `amara.njeri@kito.test` | Member, matching seller |
+| `amina.hassan@kito.test` | Nairobi Chapter Lead |
+| `james.gitonga@kito.test` | Admin |
 
 ## 2. Environment variables
 
