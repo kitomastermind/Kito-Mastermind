@@ -26,7 +26,7 @@ export async function seedMoneyAndSessions(
       amount: '500000',
       day_of_month: 15,
       effective_from: '2026-01-01',
-    }),
+    }).select('id').single(),
   );
   await seedContributions(admin, chapterId, memberIds, graceId);
   await seedSessions(admin, chapterId, cycleId, memberIds, graceId, danielId, leadId);
@@ -87,7 +87,7 @@ async function seedContributions(
       });
     }
   }
-  await must('contributions', admin.from('contributions').insert(rows));
+  await must('contributions', admin.from('contributions').insert(rows).select('id'));
 }
 
 async function seedSessions(
@@ -126,7 +126,7 @@ async function seedSessions(
           late: i < present && i % 11 === 0,
           marked_by: leadId,
         })),
-      ),
+      ).select('id'),
     );
     if (index >= 3) {
       const open = date === '2026-09-03';
@@ -143,7 +143,7 @@ async function seedSessions(
           verified_by: open ? null : danielId,
           verified_at: open ? null : `${date}T18:00:00+03:00`,
           completed_at: open ? null : `${date}T16:00:00+03:00`,
-        }),
+        }).select('id').single(),
       );
     }
   }
@@ -155,7 +155,7 @@ async function seedSessions(
       cycle_id: cycleId,
       profile_a: a,
       profile_b: b,
-    }),
+    }).select('id').single(),
   );
   const lastSession = await must(
     'last-session',
@@ -178,7 +178,7 @@ async function seedSessions(
       due_date: '2026-09-08',
       status: 'COMPLETED',
       completed_at: '2026-09-08T16:00:00+03:00',
-    }),
+    }).select('id').single(),
   );
   await must(
     'daniel-overdue',
@@ -190,6 +190,6 @@ async function seedSessions(
       description: 'Send the Lavington CMA follow-up pack',
       due_date: '2026-09-05',
       status: 'OVERDUE',
-    }),
+    }).select('id').single(),
   );
 }

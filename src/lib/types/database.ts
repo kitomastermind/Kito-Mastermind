@@ -1915,8 +1915,26 @@ export type Database = {
       }
     }
     Functions: {
+      allocate_mpesa_payment: {
+        Args: {
+          p_actor: string
+          p_contribution_id: string
+          p_payment_id: string
+        }
+        Returns: undefined
+      }
       approve_access_request: {
         Args: { p_request_id: string }
+        Returns: string
+      }
+      complete_stk_payment: {
+        Args: {
+          p_checkout_request_id: string
+          p_raw: Json
+          p_receipt: string
+          p_result_code: number
+          p_result_desc: string
+        }
         Returns: string
       }
       current_chapter_id: { Args: never; Returns: string }
@@ -1930,6 +1948,10 @@ export type Database = {
         Returns: undefined
       }
       expire_pending_access_requests: { Args: never; Returns: number }
+      generate_month_dues: {
+        Args: { p_due_date: string; p_period_key: string }
+        Returns: number
+      }
       has_lead_contact_access: {
         Args: { target_lead: string }
         Returns: boolean
@@ -1944,6 +1966,7 @@ export type Database = {
         Returns: boolean
       }
       is_treasurer: { Args: { target_chapter: string }; Returns: boolean }
+      purge_stale_lead_pii: { Args: never; Returns: number }
       record_lead_contact_view: {
         Args: { p_lead_id: string }
         Returns: undefined

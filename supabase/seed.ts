@@ -120,7 +120,7 @@ async function seedPointsConfig(admin: SupabaseClient): Promise<void> {
     { category: 'RESPONSE_TIME', cap: 90, params: { grades: { A: 90, B: 65, C: 40, D: 15, F: 0 } } },
     { category: 'CONTRIBUTIONS', cap: 60, params: { on_time: 10, late: 5 } },
   ];
-  await must('points_config', admin.from('points_config').insert(caps));
+  await must('points_config', admin.from('points_config').insert(caps).select('id'));
 }
 
 async function seedMembers(
@@ -156,11 +156,11 @@ async function seedMembers(
           role: member.role,
           agreement_version: '2026-01',
           agreement_accepted_at: '2026-01-15T09:00:00+03:00',
-        }),
+        }).select('id').single(),
       );
       await must(
         `prefs ${member.email}`,
-        admin.from('notification_preferences').insert({ profile_id: id }),
+        admin.from('notification_preferences').insert({ profile_id: id }).select('profile_id').single(),
       );
       ids[member.email] = id;
     }

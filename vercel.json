@@ -5,6 +5,7 @@
     { "path": "/api/cron/recalculate-points", "schedule": "20 21 * * *" },
     { "path": "/api/cron/match-rescan", "schedule": "30 21 * * *" },
     { "path": "/api/cron/dues-generation", "schedule": "0 5 1 * *" },
+    { "path": "/api/cron/stk-poll", "schedule": "*/5 * * * *" },
     { "path": "/api/cron/daily-digest", "schedule": "0 4 * * *" },
     { "path": "/api/cron/pii-retention", "schedule": "0 2 * * 0" }
   ]
