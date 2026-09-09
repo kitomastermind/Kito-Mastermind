@@ -13,6 +13,8 @@ import {
   totalPoints,
 } from '@/server/services/dashboard-stats';
 import { loadActions, loadMatch, loadPipeline, loadTopic } from '@/server/repositories/dashboard-panels';
+import { listDealsForActor } from '@/server/repositories/deals';
+import { canVerifyClosedBusiness } from '@/server/policy';
 import { createClient } from '@/server/supabase/server';
 
 import type { DashboardMatch, DashboardModel } from '@/server/dto/dashboard';
@@ -65,8 +67,16 @@ export async function loadDashboard(actor: Actor, now = new Date()): Promise<Das
   const pipeline = await loadPipeline(actor);
   const match = await loadMatch(actor, chapterName);
   const topic = await loadTopic(monthStart);
+  const allDeals = await listDealsForActor(actor);
+  const canVerifyDeals = canVerifyClosedBusiness(actor, actor.chapterId).allow;
+  const deals = allDeals.filter((deal) => {
+    if (deal.verifiedAt) return false;
+    const mine = deal.participants.find((row) => row.profileId === actor.id);
+    return Boolean((mine && !mine.confirmedAt) || canVerifyDeals);
+  });
 
   return {
+    actorId: actor.id,
     greeting: greetingForHour(Number.isFinite(hour) ? hour : 12),
     firstName: firstName(actor.fullName),
     eyebrow,
@@ -79,6 +89,8 @@ export async function loadDashboard(actor: Actor, now = new Date()): Promise<Das
     pipeline,
     match,
     topic,
+    deals,
+    canVerifyDeals,
   };
 }
 

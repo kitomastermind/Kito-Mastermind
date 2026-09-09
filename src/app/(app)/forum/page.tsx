@@ -1,13 +1,22 @@
-import { EmptyState } from '@/components/kito/EmptyState';
 import { PageHeader } from '@/components/kito/PageHeader';
+import { loadForumHome } from '@/server/repositories/forum';
 import { requireActor } from '@/server/supabase/server';
+import { ForumView } from './view';
 
-export default async function ForumPage() {
-  await requireActor();
+export default async function ForumPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string; chapter?: string }>;
+}) {
+  const actor = await requireActor();
+  const params = await searchParams;
+  const sort = params.sort === 'recent' ? 'recent' : 'top';
+  const chapter = params.chapter === 'all' ? 'all' : 'mine';
+  const model = await loadForumHome(actor, sort, chapter);
   return (
     <>
       <PageHeader eyebrow="Monthly topic" title="Forum" />
-      <EmptyState heading="No topic is open this month yet." body="Lessons appear when your chapter lead opens the month." />
+      <ForumView model={model} sort={sort} chapter={chapter} actorId={actor.id} canModerate={actor.role === 'CHAPTER_LEAD' || actor.role === 'ADMIN'} />
     </>
   );
 }

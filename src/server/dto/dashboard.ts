@@ -9,6 +9,7 @@ export type DashboardMatch = {
 };
 
 export type DashboardModel = {
+  actorId: string;
   greeting: string;
   firstName: string;
   eyebrow: string;
@@ -31,4 +32,12 @@ export type DashboardModel = {
     topHeadline: string | null;
     topAuthor: string | null;
   } | null;
+  deals: {
+    id: string;
+    saleVolumeLabel: string;
+    closedAt: string;
+    verifiedAt: string | null;
+    participants: { profileId: string; confirmedAt: string | null }[];
+  }[];
+  canVerifyDeals: boolean;
 };

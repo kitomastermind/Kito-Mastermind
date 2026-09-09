@@ -7,6 +7,7 @@ import { requireActor } from '@/server/supabase/server';
 import { createClient } from '@/server/supabase/server';
 import type { ActionResult } from '@/server/actions/result';
 import { writeAudit } from '@/server/audit';
+import { recomputeCurrentCycleForProfile } from '@/server/admin/recalculate-points';
 
 export async function allocatePaymentAction(
   input: unknown,
@@ -25,6 +26,14 @@ export async function allocatePaymentAction(
     p_actor: actor.id,
   });
   if (error) return { ok: false, error: error.message };
+  const { data: contribution } = await supabase
+    .from('contributions')
+    .select('profile_id')
+    .eq('id', parsed.data.contributionId)
+    .maybeSingle();
+  if (contribution?.profile_id) {
+    await recomputeCurrentCycleForProfile(contribution.profile_id);
+  }
   await writeAudit({
     actorId: actor.id,
     action: 'PAYMENT_ALLOCATED',

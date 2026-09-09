@@ -11,6 +11,7 @@ import { listMatchablePool } from '@/server/repositories/pool';
 import { requireActor } from '@/server/supabase/server';
 import type { ActionResult } from '@/server/actions/result';
 import type { Database } from '@/lib/types/database';
+import { recomputeGrantorsForLead } from '@/server/admin/recalculate-points';
 
 const LeadType = z.enum(['BUYER', 'SELLER', 'RENTAL_SEEKER', 'RENTAL_LISTER']);
 const PropertyType = z.enum(['APARTMENT', 'TOWNHOUSE', 'STANDALONE_HOUSE', 'LAND']).nullable();
@@ -141,6 +142,9 @@ export async function updateLeadAction(
   if (parsed.data.status) patch.status = parsed.data.status;
   if (parsed.data.notes !== undefined) patch.notes = parsed.data.notes;
   await updateLead(parsed.data.leadId, patch);
+  if (parsed.data.status && parsed.data.status !== 'NEW') {
+    await recomputeGrantorsForLead(parsed.data.leadId);
+  }
   revalidatePath(`/leads/${parsed.data.leadId}`);
   revalidatePath('/leads');
   return { ok: true, data: { leadId: parsed.data.leadId } };

@@ -14,6 +14,7 @@ import { generateAndStoreStatement } from '@/server/admin/statements';
 import { mpesaEnabled } from '@/server/services/mpesa';
 import { getContribution } from '@/server/repositories/contributions';
 import { fromShillings } from '@/server/services/money';
+import { recomputeCurrentCycleForProfile } from '@/server/admin/recalculate-points';
 
 export async function recordContributionAction(
   input: unknown,
@@ -51,6 +52,7 @@ export async function recordContributionAction(
     .select('id')
     .single();
   if (error || !data) return { ok: false, error: error?.message ?? 'Could not record the contribution.' };
+  await recomputeCurrentCycleForProfile(parsed.data.profileId);
   revalidatePath('/reports');
   return { ok: true, data: { id: data.id } };
 }
@@ -77,6 +79,7 @@ export async function voidContributionAction(
     .update({ voided_at: new Date().toISOString(), void_reason: parsed.data.reason, status: 'REVERSED' })
     .eq('id', row.id);
   if (error) return { ok: false, error: error.message };
+  await recomputeCurrentCycleForProfile(row.profileId);
   revalidatePath('/reports');
   return { ok: true, data: undefined };
 }

@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '@/server/admin/client';
 import { accountReference } from '@/server/services/mpesa';
 import type { Json } from '@/lib/types/database';
+import { recomputeCurrentCycleForProfile } from '@/server/admin/recalculate-points';
 
 export async function applyC2bConfirmation(raw: Record<string, unknown>): Promise<{ allocated: boolean }> {
   const receipt = String(raw.TransID ?? raw.transactionId ?? '');
@@ -86,6 +87,7 @@ export async function applyC2bConfirmation(raw: Record<string, unknown>): Promis
       .update({ status: 'PAID', method: 'MPESA', paid_at: new Date().toISOString() })
       .eq('id', contributionId)
       .is('voided_at', null);
+    if (profileId) await recomputeCurrentCycleForProfile(profileId);
     return { allocated: true };
   }
   return { allocated: false };

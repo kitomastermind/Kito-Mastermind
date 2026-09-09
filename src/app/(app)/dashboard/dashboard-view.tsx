@@ -7,7 +7,9 @@ import { PipelineRow } from '@/components/kito/PartnerLink';
 import { StatusPill } from '@/components/kito/StatusPill';
 import { RingMotif } from '@/components/kito/RingMotif';
 import type { DashboardModel } from '@/server/dto/dashboard';
+import Link from 'next/link';
 import { DashboardMatchPreview } from './match-preview';
+import { DealAlerts } from './deal-alerts';
 
 function actionTone(status: string): 'due' | 'overdue' | 'completed' | 'verify' | 'pending' {
   if (status === 'OVERDUE') return 'overdue';
@@ -26,12 +28,14 @@ export function DashboardView({ model }: { model: DashboardModel }) {
         right={<p className="text-sm text-muted">{model.nextSession}</p>}
       />
       <div className="flex snap-x gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-4 md:overflow-visible">
-        <StatCard
-          label="Points This Cycle"
-          value={model.pointsValue ?? '—'}
-          sub={model.pointsSub}
-          segments={model.segments}
-        />
+        <Link href="/points" className="min-w-[220px] snap-start">
+          <StatCard
+            label="Points This Cycle"
+            value={model.pointsValue ?? '—'}
+            sub={model.pointsSub}
+            segments={model.segments}
+          />
+        </Link>
         <StatCard
           label="Response Time"
           value={model.responseValue ?? '—'}
@@ -88,6 +92,16 @@ export function DashboardView({ model }: { model: DashboardModel }) {
           ) : null}
         </div>
         <div className="space-y-6">
+          {model.deals.some((deal) => !deal.verifiedAt) ? (
+            <Panel>
+              <PanelHead title="Closed business" />
+              <DealAlerts
+                deals={model.deals.filter((deal) => !deal.verifiedAt)}
+                actorId={model.actorId}
+                canVerify={model.canVerifyDeals}
+              />
+            </Panel>
+          ) : null}
           <Panel>
             <PanelHead title="New lead match found" />
             {model.match ? (
@@ -114,12 +128,12 @@ export function DashboardView({ model }: { model: DashboardModel }) {
                       “{model.topic.topHeadline}” — {model.topic.topAuthor}
                     </blockquote>
                   ) : null}
-                  <a
+                  <Link
                     href="/forum"
                     className="mt-4 inline-flex h-11 items-center rounded-[4px] bg-secondary px-4 text-sm font-semibold text-primary-deep"
                   >
                     Post your lesson
-                  </a>
+                  </Link>
                 </>
               ) : (
                 <p className="text-sm text-cream/80">No topic is open this month yet.</p>

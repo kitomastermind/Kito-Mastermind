@@ -38,7 +38,9 @@ describe('leads RLS', () => {
     expect(policy).toMatch(/has_lead_contact_access/);
   });
 
-  it('hides contact rows from everyone except owner and grantee', async () => {
+  it(
+    'hides contact rows from everyone except owner and grantee',
+    async () => {
     if (!url || !anon) {
       throw new Error('Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY');
     }
@@ -88,5 +90,7 @@ describe('leads RLS', () => {
     });
     const { data: anonRows } = await anonClient.from('leads').select('id');
     expect(anonRows ?? []).toEqual([]);
-  });
+    },
+    30_000,
+  );
 });

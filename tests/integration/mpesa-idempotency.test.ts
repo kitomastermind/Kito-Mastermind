@@ -23,14 +23,26 @@ describe('STK callback idempotency', () => {
       if (signError) throw signError;
       const { data: auth } = await grace.auth.getUser();
       if (!auth.user) throw new Error('session');
-      const { data: contribution } = await grace
+      const { data: profile } = await admin
+        .from('profiles')
+        .select('chapter_id')
+        .eq('id', auth.user.id)
+        .single();
+      if (!profile) throw new Error('profile');
+      const { data: contribution, error: insertError } = await admin
         .from('contributions')
+        .insert({
+          profile_id: auth.user.id,
+          chapter_id: profile.chapter_id,
+          type: 'DUES',
+          description: 'STK idempotency fixture',
+          amount: '500000' as unknown as number,
+          method: 'MPESA',
+          status: 'PENDING',
+        })
         .select('id, chapter_id, amount, status')
-        .eq('profile_id', auth.user.id)
-        .eq('status', 'PENDING')
-        .limit(1)
-        .maybeSingle();
-      if (!contribution) throw new Error('pending contribution missing');
+        .single();
+      if (insertError || !contribution) throw insertError ?? new Error('pending contribution missing');
 
       const checkout = `ws_test_${Date.now()}`;
       const receipt = `RCPT${Date.now()}`;
