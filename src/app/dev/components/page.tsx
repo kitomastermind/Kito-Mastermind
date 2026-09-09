@@ -3,7 +3,8 @@ import { ActionItem, ConfirmDialog, FilterChipRow, LockStrip, Stepper } from '@/
 import { EmptyState } from '@/components/kito/EmptyState';
 import { Eyebrow } from '@/components/kito/Eyebrow';
 import { AvatarInitials } from '@/components/kito/AvatarInitials';
-import { LessonCard, NotificationBell } from '@/components/kito/LessonCard';
+import { LessonCard } from '@/components/kito/LessonCard';
+import { NotificationBell } from '@/components/kito/NotificationBell';
 import { PartnerLink, PipelineRow } from '@/components/kito/PartnerLink';
 import { MatchCard, MoneyText } from '@/components/kito/MatchCard';
 import { PageHeader } from '@/components/kito/PageHeader';
@@ -61,7 +62,7 @@ export default function ComponentsPage() {
       />
       <Stepper steps={['Details', 'Matching', 'Review']} current={1} />
       <MoneyText cents="3250000" />
-      <NotificationBell unreadCount={2} />
+      <NotificationBell unreadCount={2} items={[]} />
       <AvatarInitials name="Grace Wanjiru" />
       <PartnerLink me="Grace Wanjiru" partner="Daniel Otieno" pairedSince="Jul 2026" />
       <PipelineRow

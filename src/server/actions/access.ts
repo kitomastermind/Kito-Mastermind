@@ -2,7 +2,8 @@
 
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { sendEmail } from '@/server/email/send';
+import { sendNotificationEmail } from '@/server/email/notification';
+import { notificationCopy } from '@/server/services/notification-copy';
 import {
   canRequestContactAccess,
   canRespondToRequest,
@@ -67,13 +68,13 @@ export async function requestContactAccessAction(
     .eq('id', lead.ownerId)
     .maybeSingle();
   if (owner?.email) {
-    const summary = `${actor.fullName} requested contact access on a ${lead.leadType.toLowerCase()} lead in ${lead.areaLabel ?? 'your chapter'}.`;
-    await sendEmail({
-      to: owner.email,
-      subject: 'Access request in KITO Mastermind',
-      text: summary,
-      html: `<p>${summary}</p>`,
+    const copy = notificationCopy('ACCESS_REQUESTED', {
+      otherName: actor.fullName,
+      areaLabel: lead.areaLabel ?? 'your chapter',
+      leadType: lead.leadType,
+      leadId: lead.id,
     });
+    await sendNotificationEmail(owner.email, copy.title, copy.body);
   }
 
   revalidatePath('/leads');
@@ -104,6 +105,18 @@ export async function approveAccessAction(
     p_request_id: parsed.data.requestId,
   });
   if (error) throw error;
+  const { data: requester } = await supabase
+    .from('profiles')
+    .select('email')
+    .eq('id', request.requester_id)
+    .maybeSingle();
+  if (requester?.email) {
+    const copy = notificationCopy('ACCESS_GRANTED', {
+      otherName: actor.fullName,
+      leadId: request.lead_id,
+    });
+    await sendNotificationEmail(requester.email, copy.title, copy.body);
+  }
   revalidatePath(`/leads/${request.lead_id}`);
   return { ok: true, data: { grantId } };
 }
@@ -134,6 +147,15 @@ export async function declineAccessAction(
     p_reason: (parsed.data.reason ?? null) as string,
   });
   if (error) throw error;
+  const { data: requester } = await supabase
+    .from('profiles')
+    .select('email')
+    .eq('id', request.requester_id)
+    .maybeSingle();
+  if (requester?.email) {
+    const copy = notificationCopy('ACCESS_DENIED', { otherName: actor.fullName });
+    await sendNotificationEmail(requester.email, copy.title, copy.body);
+  }
   revalidatePath(`/leads/${request.lead_id}`);
   return { ok: true, data: undefined };
 }
@@ -164,6 +186,15 @@ export async function revokeGrantAction(
     p_reason: (parsed.data.reason ?? null) as string,
   });
   if (error) throw error;
+  const { data: grantee } = await supabase
+    .from('profiles')
+    .select('email')
+    .eq('id', grant.grantee_id)
+    .maybeSingle();
+  if (grantee?.email) {
+    const copy = notificationCopy('ACCESS_REVOKED', { otherName: actor.fullName });
+    await sendNotificationEmail(grantee.email, copy.title, copy.body);
+  }
   revalidatePath(`/leads/${grant.lead_id}`);
   return { ok: true, data: undefined };
 }

@@ -81,13 +81,4 @@ export function LessonCard({
   );
 }
 
-export function NotificationBell({ unreadCount }: { unreadCount: number }) {
-  return (
-    <span className="relative inline-flex size-11 items-center justify-center">
-      Bell
-      {unreadCount > 0 ? (
-        <span className="absolute top-2 right-2 size-2 rounded-full bg-secondary" />
-      ) : null}
-    </span>
-  );
-}
+export { NotificationBell } from '@/components/kito/NotificationBell';

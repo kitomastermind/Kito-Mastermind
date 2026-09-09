@@ -1,5 +1,6 @@
 import type { Admin, IdMap } from './util';
 import { must } from './util';
+import { seedClosedAndInbox } from './closed-and-inbox';
 
 export async function seedLeadsAccessForumPoints(
   admin: Admin,
@@ -16,6 +17,7 @@ export async function seedLeadsAccessForumPoints(
   await seedAccess(admin, leads, graceId, amaraId, danielId, kevinId);
   await seedForum(admin, kevinId, graceId, amaraId, danielId, aminaId);
   await seedPoints(admin, cycleId, graceId);
+  await seedClosedAndInbox(admin, chapterId, graceId, aminaId);
 }
 
 async function seedLeads(
@@ -285,3 +287,4 @@ async function seedPoints(admin: Admin, cycleId: string, graceId: string): Promi
     ]),
   );
 }
+

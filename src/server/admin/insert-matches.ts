@@ -1,5 +1,7 @@
 import { canonicalPair, scoreMatch, type MatchFacet, type MatchableLead } from '@/server/services/matching';
 import { supabaseAdmin } from '@/server/admin/client';
+import { deliverNotification } from '@/server/admin/notify';
+import { notificationCopy } from '@/server/services/notification-copy';
 import type { Json } from '@/lib/types/database';
 import { firstName } from '@/lib/format';
 
@@ -105,22 +107,21 @@ async function notifyMatch(a: MatchableLead, b: MatchableLead): Promise<void> {
     .in('id', [a.ownerId, b.ownerId]);
   const nameOf = (id: string): string =>
     names?.find((row) => row.id === id)?.full_name ?? 'A member';
-  const rows = [
-    {
-      profile_id: a.ownerId,
-      type: 'LEAD_MATCH' as const,
-      title: 'New lead match found',
-      body: `${nameOf(b.ownerId)} logged a matching lead in ${b.areaFreeText ?? 'your chapter'}.`,
-      link_path: `/leads/${a.id}`,
-    },
-    {
-      profile_id: b.ownerId,
-      type: 'LEAD_MATCH' as const,
-      title: 'New lead match found',
-      body: `${nameOf(a.ownerId)} logged a matching lead in ${a.areaFreeText ?? 'your chapter'}.`,
-      link_path: `/leads/${b.id}`,
-    },
-  ];
-  const { error } = await supabaseAdmin.from('notifications').insert(rows);
-  if (error) throw error;
+  const areaOf = (lead: MatchableLead): string => lead.areaFreeText ?? 'your chapter';
+  await deliverNotification({
+    profileId: a.ownerId,
+    type: 'LEAD_MATCH',
+    copy: notificationCopy('LEAD_MATCH', {
+      otherName: nameOf(b.ownerId),
+      areaLabel: areaOf(b),
+    }),
+  });
+  await deliverNotification({
+    profileId: b.ownerId,
+    type: 'LEAD_MATCH',
+    copy: notificationCopy('LEAD_MATCH', {
+      otherName: nameOf(a.ownerId),
+      areaLabel: areaOf(a),
+    }),
+  });
 }

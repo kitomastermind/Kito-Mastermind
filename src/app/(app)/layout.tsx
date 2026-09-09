@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { AvatarInitials } from '@/components/kito/AvatarInitials';
 import { StatusPill } from '@/components/kito/StatusPill';
 import { logoutAction } from '@/server/actions/auth';
+import { NotificationBell } from '@/components/kito/NotificationBell';
+import { listNotifications, unreadNotificationCount } from '@/server/repositories/notifications';
 import { createClient, requireActor } from '@/server/supabase/server';
 
 const NAV = [
@@ -15,11 +17,12 @@ const NAV = [
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const actor = await requireActor();
   const supabase = await createClient();
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name, chapter_id, chapters(name)')
-    .eq('id', actor.id)
-    .single();
+  const [profileResult, unreadCount, latest] = await Promise.all([
+    supabase.from('profiles').select('full_name, chapter_id, chapters(name)').eq('id', actor.id).single(),
+    unreadNotificationCount(actor),
+    listNotifications(actor),
+  ]);
+  const profile = profileResult.data;
   const chapterName =
     profile?.chapters && typeof profile.chapters === 'object' && 'name' in profile.chapters
       ? String(profile.chapters.name)
@@ -39,9 +42,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-3">
-          <Link href="/notifications" className="relative text-sm" aria-label="Notifications">
-            Bell
-          </Link>
+          <NotificationBell unreadCount={unreadCount} items={latest} />
           {actor.role !== 'MEMBER' ? (
             <StatusPill tone="neutral">{actor.role.replace('_', ' ')}</StatusPill>
           ) : null}
