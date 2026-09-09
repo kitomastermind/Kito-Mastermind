@@ -1,0 +1,33 @@
+---
+alwaysApply: true
+---
+# KITO Mastermind rules
+
+## The invariant
+A client's name, phone, email and notes belong to the agent who logged the lead.
+No other member sees them without an active `lead_contact_grants` row.
+THERE IS NO ADMIN OVERRIDE. If you are writing one, stop.
+
+## Hard bans
+1. `supabaseAdmin` only in src/server/admin, src/app/api/webhooks, src/app/api/cron, supabase/seed.ts.
+2. The `leads` table only in src/server/repositories/leads.ts. Everything else uses `lead_pool` or the repository.
+3. Money is `bigint` cents. Never a float, never a `number`.
+
+## Always
+- Authorization decisions live in src/server/policy.ts. Nowhere else.
+- Server Actions: requireActor, Zod parse, fetch subject, policy check, mutate, audit, revalidate, return.
+- Return `{ ok: true, data } | { ok: false, error, fieldErrors? }`.
+- Lead reads return `LeadView`, a discriminated union on `contactVisible`.
+- Every mutation touching access, money or roles writes an audit row in the same transaction.
+- Every page works at 375px.
+- Colours come from the @theme tokens. No arbitrary hex.
+
+## Never
+- No TODO, stub, placeholder or hardcoded sample data in committed code.
+- No `any` in src/server. No `@ts-ignore`. No `console.log`.
+- No client PII in notifications, emails, logs, audit metadata or Sentry.
+- No new dependency without checking Section 3 of KITO-CURSOR-BUILD.md.
+
+## Before finishing any task
+Run: pnpm typecheck && pnpm lint && pnpm test
+The leak test (tests/e2e/leak.spec.ts) must never be skipped.
