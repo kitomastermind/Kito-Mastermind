@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
 import './globals.css';
 
@@ -28,11 +29,12 @@ export const metadata: Metadata = {
     'The private accountability and production network for Kito mastermind chapters.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await headers();
   return (
     <html
       lang="en"

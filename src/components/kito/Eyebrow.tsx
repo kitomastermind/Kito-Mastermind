@@ -5,13 +5,15 @@ export function Eyebrow({
   tone = 'secondary',
 }: {
   children: React.ReactNode;
-  tone?: 'secondary' | 'muted';
+  tone?: 'secondary' | 'muted' | 'onDark';
 }) {
   return (
     <p
       className={cn(
         'font-mono text-[11px] font-medium uppercase tracking-[0.22em]',
-        tone === 'secondary' ? 'text-secondary' : 'text-muted',
+        tone === 'muted' && 'text-muted',
+        tone === 'secondary' && 'text-primary',
+        tone === 'onDark' && 'text-chart-4',
       )}
     >
       {children}

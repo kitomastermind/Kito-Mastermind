@@ -11,10 +11,10 @@
   --color-cream-flat: #fbfaf6;
   --color-cream-dim: #e9e4d4;
   --color-ink: #1b2e37;
-  --color-muted: #5f7079;
+  --color-muted: #4a5c64;
   --color-line: #e4e0d1;
   --color-danger-pale: #f6e6d8;
-  --color-danger-ink: #a4623a;
+  --color-danger-ink: #7a3d1f;
   --color-chart-4: #c8cf8f;
 
   --font-display: var(--font-fraunces), Georgia, serif;
@@ -31,6 +31,10 @@ body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+.shadow-login {
+  box-shadow: var(--shadow-login);
 }
 
 :focus-visible {

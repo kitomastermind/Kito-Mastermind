@@ -1711,6 +1711,35 @@ export type Database = {
           },
         ]
       }
+      rate_limits: {
+        Row: {
+          action: string
+          hit_count: number
+          profile_id: string
+          window_started_at: string
+        }
+        Insert: {
+          action: string
+          hit_count?: number
+          profile_id: string
+          window_started_at: string
+        }
+        Update: {
+          action?: string
+          hit_count?: number
+          profile_id?: string
+          window_started_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rate_limits_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       session_attendance: {
         Row: {
           id: string
@@ -1966,6 +1995,22 @@ export type Database = {
         Returns: boolean
       }
       is_treasurer: { Args: { target_chapter: string }; Returns: boolean }
+      matchable_leads: {
+        Args: never
+        Returns: {
+          area_free_text: string
+          area_id: string
+          budget_max: number
+          budget_min: number
+          chapter_id: string
+          id: string
+          lead_type: Database["public"]["Enums"]["lead_type"]
+          owner_id: string
+          property_type: Database["public"]["Enums"]["property_type"]
+          status: Database["public"]["Enums"]["lead_status"]
+          timeline: Database["public"]["Enums"]["lead_timeline"]
+        }[]
+      }
       purge_stale_lead_pii: { Args: never; Returns: number }
       record_lead_contact_view: {
         Args: { p_lead_id: string }

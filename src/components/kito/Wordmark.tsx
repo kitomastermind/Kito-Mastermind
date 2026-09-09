@@ -9,7 +9,7 @@ export function Wordmark({ size = 'md' }: { size?: 'sm' | 'md' }) {
         K
       </div>
       <p className="font-display text-[28px] font-[450] text-cream">
-        KITO <span className="text-secondary">Mastermind</span>
+        KITO <span className="text-chart-4">Mastermind</span>
       </p>
     </div>
   );

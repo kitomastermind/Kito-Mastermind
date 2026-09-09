@@ -12,6 +12,7 @@ import {
 import { listLeadPool } from '@/server/repositories/leads';
 import { createClient, requireActor } from '@/server/supabase/server';
 import type { ActionResult } from '@/server/actions/result';
+import { assertRateLimit } from '@/server/admin/rate-limit';
 
 export async function requestContactAccessAction(
   input: unknown,
@@ -54,6 +55,8 @@ export async function requestContactAccessAction(
     })),
   );
   if (!decision.allow) return { ok: false, error: decision.reason };
+  const limited = await assertRateLimit(actor.id, 'ACCESS_REQUEST');
+  if (!limited.ok) return limited;
 
   const { data: requestId, error } = await supabase.rpc('request_contact_access', {
     p_lead_id: parsed.data.leadId,

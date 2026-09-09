@@ -15,6 +15,7 @@ import { mpesaEnabled } from '@/server/services/mpesa';
 import { getContribution } from '@/server/repositories/contributions';
 import { fromShillings } from '@/server/services/money';
 import { recomputeCurrentCycleForProfile } from '@/server/admin/recalculate-points';
+import { assertRateLimit } from '@/server/admin/rate-limit';
 
 export async function recordContributionAction(
   input: unknown,
@@ -134,6 +135,8 @@ export async function generateStatementAction(
   if (!parsed.success) return { ok: false, error: 'Choose a period and format.' };
   const decision = canGenerateStatement(actor, actor.id);
   if (!decision.allow) return { ok: false, error: decision.reason };
+  const limited = await assertRateLimit(actor.id, 'STATEMENT');
+  if (!limited.ok) return limited;
   const result = await generateAndStoreStatement({
     actor,
     period: parsed.data.period,

@@ -26,7 +26,7 @@ export function StatCard({
         <p
           className={cn(
             'mt-1 text-sm',
-            subTone === 'up' && 'text-secondary-deep',
+            subTone === 'up' && 'text-primary',
             subTone === 'warn' && 'text-danger-ink',
             subTone === 'default' && 'text-muted',
           )}

@@ -6,7 +6,7 @@ export default function LoginPage() {
   const year = new Date().getFullYear();
   return (
     <div className="flex flex-col items-center text-center">
-      <Eyebrow>CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
+      <Eyebrow tone="onDark">CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
       <div className="mt-6">
         <Wordmark />
       </div>
@@ -14,8 +14,7 @@ export default function LoginPage() {
         The private accountability and production network for Kito mastermind chapters.
       </p>
       <div
-        className="mt-8 w-full rounded-[6px] border border-line bg-cream p-6 text-left text-ink"
-        style={{ boxShadow: 'var(--shadow-login)' }}
+        className="shadow-login mt-8 w-full rounded-[6px] border border-line bg-cream p-6 text-left text-ink"
       >
         <h1 className="font-display text-2xl font-[450] text-primary">
           Sign in to your chapter

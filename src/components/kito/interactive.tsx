@@ -25,6 +25,7 @@ export function ActionItem({
         type="button"
         role="checkbox"
         aria-checked={checked}
+        aria-label={checked ? `Completed: ${title}` : `Mark complete: ${title}`}
         onClick={onToggle}
         className={cn(
           'size-11 shrink-0 rounded-full border border-line',

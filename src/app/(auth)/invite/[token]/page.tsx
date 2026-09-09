@@ -19,11 +19,8 @@ export default async function InvitePage({
 
   return (
     <div className="text-center">
-      <Eyebrow>CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
-      <div
-        className="mt-8 rounded-[6px] border border-line bg-cream p-6 text-left text-ink"
-        style={{ boxShadow: 'var(--shadow-login)' }}
-      >
+      <Eyebrow tone="onDark">CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
+      <div className="shadow-login mt-8 rounded-[6px] border border-line bg-cream p-6 text-left text-ink">
         <h1 className="font-display text-2xl font-[450] text-primary">
           Join your chapter
         </h1>

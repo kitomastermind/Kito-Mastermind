@@ -68,7 +68,7 @@ openssl rand -base64 32
 1. Create a project (region closest to Nairobi; `eu-central-1` is the usual choice).
 2. From this repo: `pnpm exec supabase link --project-ref <ref>`
 3. Push schema: `pnpm exec supabase db push`
-   (Local alternative: `pnpm exec supabase db reset`, which reapplies every migration including `20260101000011_contact_access_rpcs.sql` — area search and the approve/decline/revoke contact-access RPCs.)
+   (Local alternative: `pnpm exec supabase db reset`, which reapplies every migration through `20260101000016_matchable_pool_rpc.sql` — closed-business insert, rate limits, admin writes, and the matchable-leads RPC.)
 4. Generate types after every schema change: `pnpm gen:types`
 
 Local development:
@@ -151,6 +151,7 @@ Cron paths (UTC):
 | `/api/cron/recalculate-points` | `20 21 * * *` | |
 | `/api/cron/match-rescan` | `30 21 * * *` | |
 | `/api/cron/dues-generation` | `0 5 1 * *` | 1st of month, 08:00 |
+| `/api/cron/stk-poll` | `*/5 * * * *` | every 5 minutes |
 | `/api/cron/daily-digest` | `0 4 * * *` | 07:00 |
 | `/api/cron/pii-retention` | `0 2 * * 0` | Sunday 05:00 |
 
@@ -160,7 +161,9 @@ Each handler requires `Authorization: Bearer ${CRON_SECRET}`.
 
 1. Create a Next.js project.
 2. Set `NEXT_PUBLIC_SENTRY_DSN` and `SENTRY_AUTH_TOKEN`.
-3. Confirm the deny-list includes `client_name`, `client_phone`, `client_email`, `notes`, `phone`, `email`, `password`, `access_token_enc`, and every M-Pesa raw payload field **before** the first production deploy.
+3. Confirm the deny-list includes `client_name`, `client_phone`, `client_email`, `notes`, `phone`, `email`, `password`, `access_token_enc`, and every M-Pesa raw payload field **before** the first production deploy. `src/lib/sentry-scrub.ts` is the source of truth; `pnpm test` includes a deliberate-error case.
+4. Rate limits (access requests, nudges, match messages, statements) live in `rate_limits` and are enforced by the service role.
+5. `ENCRYPTION_KEY` is required for CRM token encrypt/decrypt even though CRM connect is disabled in v1.
 
 ## 9. Legal / ODPC (human only)
 
@@ -172,6 +175,8 @@ Each handler requires `Authorization: Bearer ${CRON_SECRET}`.
 
 - [ ] `pnpm typecheck && pnpm lint && pnpm test && pnpm build` green
 - [ ] Leak test `tests/e2e/leak.spec.ts` green
+Playwright E2E uses port `3001` (`pnpm exec next dev --port 3001`) so it does not collide with another app on 3000. Set `E2E_PORT` to override.
+- [ ] Chapter pool load test under 200ms at 500 leads
 - [ ] Auth settings from section 4 applied
 - [ ] Storage bucket private, CORS set
 - [ ] All env vars set in Vercel

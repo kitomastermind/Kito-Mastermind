@@ -83,7 +83,7 @@ export function LessonCard({
           : 'rounded-[6px] border border-line bg-cream-flat p-4'
       }
     >
-      {isTop ? <p className="mb-2 text-xs text-secondary-deep">★ Top lesson</p> : null}
+      {isTop ? <p className="mb-2 text-xs text-primary">★ Top lesson</p> : null}
       <div className="flex items-center gap-3">
         <AvatarInitials name={author} size="sm" />
         <div>

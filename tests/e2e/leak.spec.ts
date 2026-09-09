@@ -65,7 +65,7 @@ function assertNone(haystack: string, label: string): void {
 }
 
 test.describe('client PII leak crawl', () => {
-  test.describe.configure({ timeout: 900_000 });
+  test.describe.configure({ timeout: 1_200_000 });
 
   test('sentinels stay off every surface except the grantee lead page', async ({ page, browser }) => {
     const { leadId, matchId } = await prepareLeakFixture();

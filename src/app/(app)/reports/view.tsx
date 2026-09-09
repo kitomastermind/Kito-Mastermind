@@ -107,7 +107,14 @@ export function ReportsView({
       </Panel>
       <StatementPanel archive={archive} showChapterReport={showChapterReport} />
       {showTreasurer ? <TreasurerPanel members={members} /> : null}
-      {rows.some((row) => row.status === 'PENDING' && !row.voidedAt) ? (
+      {!mpesaConfigured ? (
+        <Panel>
+          <PanelHead title="Pay with M-Pesa" />
+          <p className="p-4 text-sm text-muted">
+            M-Pesa is not configured yet. Ask your treasurer to record the payment.
+          </p>
+        </Panel>
+      ) : rows.some((row) => row.status === 'PENDING' && !row.voidedAt) ? (
         <Panel>
           <PanelHead title="Pay with M-Pesa" />
           <div className="space-y-3 p-4">

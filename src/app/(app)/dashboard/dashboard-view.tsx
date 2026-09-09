@@ -120,9 +120,9 @@ export function DashboardView({ model }: { model: DashboardModel }) {
             <div className="relative p-4">
               {model.topic ? (
                 <>
-                  <p className="font-mono text-[11px] tracking-[0.22em] text-secondary uppercase">This month</p>
+                  <p className="font-mono text-[11px] tracking-[0.22em] text-chart-4 uppercase">This month</p>
                   <h2 className="mt-2 font-display text-2xl font-[450]">{model.topic.title}</h2>
-                  <p className="mt-2 text-sm text-cream/80">{model.topic.prompt}</p>
+                  <p className="mt-2 text-sm text-cream">{model.topic.prompt}</p>
                   {model.topic.topHeadline && model.topic.topAuthor ? (
                     <blockquote className="mt-4 border-l-2 border-secondary pl-3 text-sm">
                       “{model.topic.topHeadline}” — {model.topic.topAuthor}
@@ -136,7 +136,7 @@ export function DashboardView({ model }: { model: DashboardModel }) {
                   </Link>
                 </>
               ) : (
-                <p className="text-sm text-cream/80">No topic is open this month yet.</p>
+                <p className="text-sm text-cream">No topic is open this month yet.</p>
               )}
             </div>
           </Panel>

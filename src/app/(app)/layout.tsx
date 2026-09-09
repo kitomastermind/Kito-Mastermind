@@ -31,23 +31,31 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen bg-cream pb-16 md:pb-0">
       <header className="sticky top-0 z-20 flex items-center gap-4 bg-primary px-4 py-3 text-cream">
-        <Link href="/dashboard" className="shrink-0 font-display text-lg font-[450]">
-          K <span className="text-secondary">Mastermind</span>
+        <Link href="/dashboard" className="shrink-0 font-display text-lg font-[450] text-cream">
+          K <span className="text-chart-4">Mastermind</span>
         </Link>
         <nav className="hidden flex-1 justify-center gap-5 md:flex">
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="text-sm hover:text-secondary">
+            <Link key={item.href} href={item.href} className="text-sm text-cream hover:text-chart-4">
               {item.label}
             </Link>
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-3">
           <NotificationBell unreadCount={unreadCount} items={latest} />
+          {actor.role === 'ADMIN' || actor.role === 'CHAPTER_LEAD' ? (
+            <Link href="/admin" className="hidden text-sm text-cream hover:text-chart-4 md:inline">
+              Admin
+            </Link>
+          ) : null}
+          <Link href="/settings" className="hidden text-sm text-cream hover:text-chart-4 md:inline">
+            Settings
+          </Link>
           {actor.role !== 'MEMBER' ? (
             <StatusPill tone="neutral">{actor.role.replace('_', ' ')}</StatusPill>
           ) : null}
           <form action={logoutAction}>
-            <button type="submit" className="text-sm text-cream/80 hover:text-cream">
+            <button type="submit" className="text-sm text-cream hover:underline">
               Sign out
             </button>
           </form>
@@ -55,7 +63,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <AvatarInitials name={actor.fullName} size="sm" />
             <div className="leading-tight">
               <p className="text-sm">{actor.fullName}</p>
-              <p className="text-xs text-cream/70">{chapterName} Chapter</p>
+              <p className="text-xs text-cream">{chapterName} Chapter</p>
             </div>
           </div>
         </div>

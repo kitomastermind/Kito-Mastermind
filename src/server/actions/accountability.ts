@@ -13,6 +13,7 @@ import {
 import { deliverNotification } from '@/server/admin/notify';
 import { notificationCopy } from '@/server/services/notification-copy';
 import { firstName } from '@/lib/format';
+import { assertRateLimit } from '@/server/admin/rate-limit';
 
 function revalidateAccountability(): void {
   revalidatePath('/accountability');
@@ -173,6 +174,8 @@ export async function nudgeActionAction(
     new Date(),
   );
   if (refused) return { ok: false, error: refused };
+  const limited = await assertRateLimit(actor.id, 'NUDGE');
+  if (!limited.ok) return limited;
   const supabase = await createClient();
   const { error } = await supabase
     .from('accountability_actions')
