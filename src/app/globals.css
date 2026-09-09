@@ -23,6 +23,7 @@
 
   --radius-input: 4px;
   --radius-card: 6px;
+  --shadow-login: 0 30px 60px -20px rgba(9, 22, 29, 0.55);
 }
 
 html,

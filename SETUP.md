@@ -99,6 +99,8 @@ Disable: phone auth, social providers, anonymous sign-in, public sign-ups.
 
 Invitation acceptance creates `auth.users`. Trigger `handle_new_auth_user` then creates `public.profiles` only when a valid invitation exists. A signup without an invitation fails at the database.
 
+Login is rate-limited to 5 failed attempts per email in 15 minutes (`login_attempts` table, service-role only). The sixth attempt returns a lockout message. Failures write `LOGIN_FAILED` / `LOGIN_LOCKED` audit rows.
+
 ## 5. Storage bucket
 
 Create a **private** bucket named `kito-files` (or the value of `SUPABASE_STORAGE_BUCKET`).

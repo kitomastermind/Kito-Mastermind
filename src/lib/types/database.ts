@@ -1159,6 +1159,30 @@ export type Database = {
           },
         ]
       }
+      login_attempts: {
+        Row: {
+          email: string
+          id: number
+          ip_address: unknown
+          occurred_at: string
+          succeeded: boolean
+        }
+        Insert: {
+          email: string
+          id?: number
+          ip_address?: unknown
+          occurred_at?: string
+          succeeded: boolean
+        }
+        Update: {
+          email?: string
+          id?: number
+          ip_address?: unknown
+          occurred_at?: string
+          succeeded?: boolean
+        }
+        Relationships: []
+      }
       mastermind_sessions: {
         Row: {
           chapter_id: string
@@ -1913,6 +1937,15 @@ export type Database = {
       is_treasurer: { Args: { target_chapter: string }; Returns: boolean }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
+      write_audit: {
+        Args: {
+          p_action: Database["public"]["Enums"]["audit_action"]
+          p_metadata?: Json
+          p_subject_id: string
+          p_subject_type: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       action_status:
@@ -1943,6 +1976,8 @@ export type Database = {
         | "FORUM_POST_HIDDEN"
         | "DEAL_VERIFIED"
         | "THREAD_CREATED"
+        | "LOGIN_FAILED"
+        | "LOGIN_LOCKED"
       contribution_type: "DUES" | "FINE" | "EVENT_FEE" | "DONATION"
       crm_provider: "NONE" | "FOLLOW_UP_BOSS" | "HUBSPOT" | "KVCORE" | "ZOHO"
       lead_source:
@@ -2157,6 +2192,8 @@ export const Constants = {
         "FORUM_POST_HIDDEN",
         "DEAL_VERIFIED",
         "THREAD_CREATED",
+        "LOGIN_FAILED",
+        "LOGIN_LOCKED",
       ],
       contribution_type: ["DUES", "FINE", "EVENT_FEE", "DONATION"],
       crm_provider: ["NONE", "FOLLOW_UP_BOSS", "HUBSPOT", "KVCORE", "ZOHO"],

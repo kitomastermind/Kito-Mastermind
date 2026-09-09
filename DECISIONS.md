@@ -5,7 +5,7 @@ Choices made under Section 0.4 of the Cursor execution plan. Open items from Sec
 ## Scaffold
 
 - **Project root is `kito-mastermind/`.** `create-next-app` rejected the parent folder name `Kito` (npm package names cannot contain capital letters). The app lives in the nested directory specified in Section 4.
-- **Local toolchain vs locked versions.** The build machine has Node 24 and pnpm 11. Production target remains Node 20 LTS and pnpm 9 as specified. No code depends on Node 24 APIs.
+- **TypeScript target is ES2020.** The scaffold defaulted to ES2017, which cannot express `bigint` literals required for money.
 - **`@eslint/js` is pinned to v9.** Latest resolved to v10, which targets ESLint 10. Section 3 locks ESLint 9.
 - **`@testing-library/dom` is installed.** It is a required peer of the listed `@testing-library/react` package, not an extra library.
 
@@ -26,3 +26,8 @@ Choices made under Section 0.4 of the Cursor execution plan. Open items from Sec
 
 - **`supabase/seed.ts` may write the `leads` table.** The repository does not exist until Phase 3, and seed is not a runtime read path. ESLint allows `.from('leads')` in `supabase/seed.ts` only. The invitation trigger is disabled while seed creates the first profiles, because `invitations.invited_by` requires an existing profile. `supabase db query` cannot disable `auth.users` triggers (not table owner), so seed uses `docker exec` as `supabase_admin` on the local `supabase_db_*` container.
 - Seed helpers live under `supabase/seed/` so `seed.ts` stays under the file-length ceiling.
+
+## Auth (Phase 2)
+
+- **Login lockout lives in `login_attempts`, migration 010.** The plan specifies 5 failures / 15 minutes but does not name a table. Service-role writes only; no RLS client path. Audit actions `LOGIN_FAILED` and `LOGIN_LOCKED` were added to `audit_action` in the same migration.
+- **Invitation emails skip send when `RESEND_API_KEY` is unset in non-production.** The Server Action still creates the invitation and, in development only, returns `inviteUrl` so the flow can be tested without Resend. Production without a key logs a warning and does not return the URL.
