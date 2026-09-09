@@ -8,6 +8,8 @@ export function MatchCard({
   score,
   facets,
   requestState,
+  onRequest,
+  onMessage,
 }: {
   ownerName: string;
   loggedAt: string;
@@ -43,6 +45,24 @@ export function MatchCard({
       </div>
       <div className="mt-3">
         <LockStrip ownerFirstName={ownerName.split(' ')[0] ?? ownerName} />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onRequest}
+          disabled={!onRequest || requestState !== 'pending'}
+          className="h-11 rounded-[4px] bg-secondary px-3 text-sm font-semibold text-primary-deep disabled:opacity-60"
+        >
+          Request contact access
+        </button>
+        <button
+          type="button"
+          onClick={onMessage}
+          disabled={!onMessage}
+          className="h-11 rounded-[4px] border border-line px-3 text-sm text-primary"
+        >
+          Message {ownerName.split(' ')[0] ?? ownerName} in KITO Mastermind
+        </button>
       </div>
       <p className="mt-2">
         <StatusPill

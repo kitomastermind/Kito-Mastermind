@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -1915,12 +1915,21 @@ export type Database = {
       }
     }
     Functions: {
+      approve_access_request: {
+        Args: { p_request_id: string }
+        Returns: string
+      }
       current_chapter_id: { Args: never; Returns: string }
       current_cycle_id: { Args: { target_chapter: string }; Returns: string }
       current_role: {
         Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
+      decline_access_request: {
+        Args: { p_reason: string; p_request_id: string }
+        Returns: undefined
+      }
+      expire_pending_access_requests: { Args: never; Returns: number }
       has_lead_contact_access: {
         Args: { target_lead: string }
         Returns: boolean
@@ -1935,6 +1944,28 @@ export type Database = {
         Returns: boolean
       }
       is_treasurer: { Args: { target_chapter: string }; Returns: boolean }
+      record_lead_contact_view: {
+        Args: { p_lead_id: string }
+        Returns: undefined
+      }
+      request_contact_access: {
+        Args: { p_lead_id: string; p_match_id: string; p_message: string }
+        Returns: string
+      }
+      revoke_lead_grant: {
+        Args: { p_grant_id: string; p_reason: string }
+        Returns: undefined
+      }
+      search_areas: {
+        Args: { p_query: string }
+        Returns: {
+          city: string
+          id: string
+          name: string
+          parent_id: string
+          score: number
+        }[]
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       write_audit: {

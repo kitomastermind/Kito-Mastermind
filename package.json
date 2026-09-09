@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev --port 3000",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test --pass-with-no-tests",
+    "test:e2e": "playwright test",
     "seed": "tsx supabase/seed.ts",
     "gen:types": "supabase gen types typescript --local > src/lib/types/database.ts"
   },

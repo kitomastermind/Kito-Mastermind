@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginAction } from '@/server/actions/auth';
 
+const emptySubscribe = () => () => undefined;
+
 export function LoginForm() {
   const router = useRouter();
+  const hydrated = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
@@ -26,12 +29,17 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <label className="block">
+    <form
+      onSubmit={onSubmit}
+      data-hydrated={hydrated ? 'ready' : 'pending'}
+      className="space-y-4"
+    >
+      <label className="block" htmlFor="login-email">
         <span className="mb-1 block font-sans text-[11px] font-semibold tracking-[0.05em] text-primary uppercase">
           Email
         </span>
         <input
+          id="login-email"
           type="email"
           autoComplete="email"
           required
@@ -40,11 +48,12 @@ export function LoginForm() {
           className="h-11 w-full rounded-[4px] border border-line bg-cream-flat px-3 text-ink focus-visible:border-secondary"
         />
       </label>
-      <label className="block">
+      <label className="block" htmlFor="login-password">
         <span className="mb-1 block font-sans text-[11px] font-semibold tracking-[0.05em] text-primary uppercase">
           Password
         </span>
         <input
+          id="login-password"
           type="password"
           autoComplete="current-password"
           required
@@ -69,7 +78,7 @@ export function LoginForm() {
       </div>
       <button
         type="submit"
-        disabled={submitting}
+        disabled={!hydrated || submitting}
         className="h-11 w-full rounded-[4px] bg-secondary text-sm font-semibold text-primary-deep hover:bg-secondary-deep disabled:opacity-70"
       >
         {submitting ? 'Signing in…' : 'Sign in'}

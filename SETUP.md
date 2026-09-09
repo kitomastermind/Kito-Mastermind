@@ -68,6 +68,7 @@ openssl rand -base64 32
 1. Create a project (region closest to Nairobi; `eu-central-1` is the usual choice).
 2. From this repo: `pnpm exec supabase link --project-ref <ref>`
 3. Push schema: `pnpm exec supabase db push`
+   (Local alternative: `pnpm exec supabase db reset`, which reapplies every migration including `20260101000011_contact_access_rpcs.sql` — area search and the approve/decline/revoke contact-access RPCs.)
 4. Generate types after every schema change: `pnpm gen:types`
 
 Local development:

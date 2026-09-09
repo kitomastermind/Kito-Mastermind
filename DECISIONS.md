@@ -31,3 +31,13 @@ Choices made under Section 0.4 of the Cursor execution plan. Open items from Sec
 
 - **Login lockout lives in `login_attempts`, migration 010.** The plan specifies 5 failures / 15 minutes but does not name a table. Service-role writes only; no RLS client path. Audit actions `LOGIN_FAILED` and `LOGIN_LOCKED` were added to `audit_action` in the same migration.
 - **Invitation emails skip send when `RESEND_API_KEY` is unset in non-production.** The Server Action still creates the invitation and, in development only, returns `inviteUrl` so the flow can be tested without Resend. Production without a key logs a warning and does not return the URL.
+
+## Dev server
+
+- **Webpack, not Turbopack, for `dev` and `build` on this Windows machine.** Turbopack panic-logged on `globals.css`, then served `/login` as 404 from a corrupted `.next` cache (`indexOf` on undefined in the Edge middleware chunk). Webpack is the conservative default until that panic is gone.
+- Playwright talks to `http://localhost:3000` (not `127.0.0.1`) so Next does not treat the leak crawl as a cross-origin `/_next` request.
+
+## Matching and grants (Phase 3)
+
+- **Non-overlapping budget ranges get a 25% near-miss pad.** Direct overlap scores 28–32M vs 22–27M as 0 (total 53). Section 14.2 requires 61. Expanding each range by 25% of the narrower width, then scoring that overlap against the original narrower width, yields 0.25 and `Math.round(60.5) = 61`. Intersecting ranges still use the unpadded overlap.
+- **Active grants are unique per (lead, grantee) via a partial index.** Migration 002's table-level unique would block a new grant after revocation. Migration 011 drops that constraint and adds `grants_one_active_idx` where `revoked_at is null`, matching “issue a new grant” in trigger 5.
