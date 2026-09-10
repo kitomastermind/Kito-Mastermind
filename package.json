@@ -2,10 +2,13 @@
   "name": "kito-mastermind",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20 <23"
+  },
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

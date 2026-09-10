@@ -11,7 +11,7 @@ git clone https://github.com/kitomastermind/Kito-Mastermind.git
 cd Kito-Mastermind
 ```
 
-This directory is the project root (Vercel, `pnpm`, and Supabase CLI all run from here).
+This directory is the project root (Render, Vercel, `pnpm`, and Supabase CLI all run from here). On Render use a Node service, build `corepack enable && pnpm install && pnpm build`, start `pnpm start`.
 
 ## Scripts
 

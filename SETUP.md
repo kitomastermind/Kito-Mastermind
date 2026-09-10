@@ -145,7 +145,24 @@ Sandbox checklist:
 
 Production credentials replace sandbox values and set `MPESA_ENV=production`.
 
-## 7. Vercel
+## 7. Render
+
+This repo is a Next.js app. Create a **Node** web service (not Go). Root Directory stays empty.
+
+| Field | Value |
+|---|---|
+| Runtime | Node |
+| Build command | `corepack enable && pnpm install && pnpm build` |
+| Start command | `pnpm start` |
+| `NODE_VERSION` | `20` |
+
+Do not add `--hostname` or `--` after `pnpm start`. `next start` already binds `0.0.0.0` and reads Render's `PORT`.
+
+After the first successful deploy, set `NEXT_PUBLIC_APP_URL` to `https://<service>.onrender.com` and update Supabase Auth Site URL to the same host.
+
+`render.yaml` in the repo root describes this service.
+
+## 7b. Vercel
 
 1. Import the `kito-mastermind` directory as the project root.
 2. Framework preset: Next.js. Install command: `pnpm install`. Build: `pnpm build`.

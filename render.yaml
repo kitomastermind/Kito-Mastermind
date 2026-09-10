@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: kito-mastermind
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install && pnpm build
+    startCommand: pnpm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
