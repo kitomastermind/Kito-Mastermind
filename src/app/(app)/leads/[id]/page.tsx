@@ -18,9 +18,11 @@ export default async function LeadDetailPage({
   const { id } = await params;
   const lead = await getLeadView(actor, id);
   if (!lead) notFound();
-  const panel = lead.ownerId === actor.id ? await listAccessPanel(lead.id) : null;
-  const members = lead.ownerId === actor.id ? await listChapterMemberOptions(actor) : [];
-  const deals = await listDealsForLead(lead.id);
+  const [panel, members, deals] = await Promise.all([
+    lead.ownerId === actor.id ? listAccessPanel(lead.id) : Promise.resolve(null),
+    lead.ownerId === actor.id ? listChapterMemberOptions(actor) : Promise.resolve([]),
+    listDealsForLead(lead.id),
+  ]);
   if (lead.contactVisible && lead.ownerId !== actor.id) {
     const { recomputeGrantorsForLead } = await import('@/server/admin/recalculate-points');
     await recomputeGrantorsForLead(lead.id);

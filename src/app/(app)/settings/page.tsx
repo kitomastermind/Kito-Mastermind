@@ -5,16 +5,14 @@ import { SettingsForm } from './form';
 export default async function SettingsPage() {
   const actor = await requireActor();
   const supabase = await createClient();
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name, phone, brokerage')
-    .eq('id', actor.id)
-    .single();
-  const { data: prefs } = await supabase
-    .from('notification_preferences')
-    .select('email_digest, email_immediate')
-    .eq('profile_id', actor.id)
-    .maybeSingle();
+  const [{ data: profile }, { data: prefs }] = await Promise.all([
+    supabase.from('profiles').select('full_name, phone, brokerage').eq('id', actor.id).single(),
+    supabase
+      .from('notification_preferences')
+      .select('email_digest, email_immediate')
+      .eq('profile_id', actor.id)
+      .maybeSingle(),
+  ]);
   return (
     <>
       <PageHeader eyebrow="Account" title="Settings" />

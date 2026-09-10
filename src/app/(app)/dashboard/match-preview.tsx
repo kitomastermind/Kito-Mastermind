@@ -1,11 +1,13 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { MatchCard } from '@/components/kito/MatchCard';
 import { requestContactAccessAction } from '@/server/actions/access';
 import type { DashboardMatch } from '@/server/dto/dashboard';
 
 export function DashboardMatchPreview({ match }: { match: DashboardMatch }) {
+  const router = useRouter();
   const [state, setState] = useState<'pending' | 'requested' | 'granted' | 'declined'>('pending');
   const [error, setError] = useState('');
 
@@ -32,7 +34,7 @@ export function DashboardMatchPreview({ match }: { match: DashboardMatch }) {
         requestState={state}
         onRequest={state === 'pending' ? onRequest : undefined}
         onMessage={() => {
-          window.location.href = `/matches/${match.matchId}`;
+          router.push(`/matches/${match.matchId}`);
         }}
       />
       {error ? (

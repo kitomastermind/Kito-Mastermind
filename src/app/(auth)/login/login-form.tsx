@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useSyncExternalStore } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { loginAction } from '@/server/actions/auth';
@@ -113,9 +114,9 @@ export function LoginForm() {
           />
           Keep me signed in
         </label>
-        <a href="/forgot-password" className="font-semibold text-[#0E1F1A]">
+        <Link prefetch href="/forgot-password" className="font-semibold text-[#0E1F1A]">
           Forgot password?
-        </a>
+        </Link>
       </div>
       <button type="submit" disabled={!hydrated || submitting} className="btn-primary w-full">
         {submitting ? 'Signing in…' : 'Sign in'}

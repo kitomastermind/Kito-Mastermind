@@ -11,17 +11,19 @@ export default async function PaymentsPage() {
     if (actor.role !== 'CHAPTER_LEAD' && actor.role !== 'ADMIN') redirect('/dashboard');
   }
   const supabase = await createClient();
-  const { data: payments } = await supabase
-    .from('mpesa_payments')
-    .select('id, phone_number, amount, account_reference, created_at, mpesa_receipt_number')
-    .is('contribution_id', null)
-    .eq('result_code', 0)
-    .order('created_at', { ascending: false });
-  const { data: pending } = await supabase
-    .from('contributions')
-    .select('id, description, amount, profile_id')
-    .eq('status', 'PENDING')
-    .is('voided_at', null);
+  const [{ data: payments }, { data: pending }] = await Promise.all([
+    supabase
+      .from('mpesa_payments')
+      .select('id, phone_number, amount, account_reference, created_at, mpesa_receipt_number')
+      .is('contribution_id', null)
+      .eq('result_code', 0)
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('contributions')
+      .select('id, description, amount, profile_id')
+      .eq('status', 'PENDING')
+      .is('voided_at', null),
+  ]);
   return (
     <>
       <PageHeader eyebrow="Administration" title="Unallocated payments" />

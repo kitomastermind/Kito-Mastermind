@@ -8,11 +8,13 @@ export default async function CyclesPage() {
   const actor = await requireActor();
   if (!canManageChapters(actor).allow) redirect('/dashboard');
   const supabase = await createClient();
-  const { data: chapters } = await supabase.from('chapters').select('id, name').order('name');
-  const { data: cycles } = await supabase
-    .from('cycles')
-    .select('id, name, start_date, end_date, points_cap, chapter_id')
-    .order('start_date', { ascending: false });
+  const [{ data: chapters }, { data: cycles }] = await Promise.all([
+    supabase.from('chapters').select('id, name').order('name'),
+    supabase
+      .from('cycles')
+      .select('id, name, start_date, end_date, points_cap, chapter_id')
+      .order('start_date', { ascending: false }),
+  ]);
   return (
     <>
       <PageHeader eyebrow="Administration" title="Cycles" />

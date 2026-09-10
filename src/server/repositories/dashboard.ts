@@ -27,29 +27,25 @@ export async function loadDashboard(actor: Actor, now = new Date()): Promise<Das
   const today = formatInTimeZone(now, NAIROBI_TZ, 'yyyy-MM-dd');
   const monthStart = formatInTimeZone(now, NAIROBI_TZ, 'yyyy-MM-01');
 
-  const { data: cycle } = await supabase
-    .from('cycles')
-    .select('id, name, start_date, end_date, points_cap')
-    .eq('chapter_id', actor.chapterId)
-    .lte('start_date', today)
-    .gte('end_date', today)
-    .maybeSingle();
-
-  const { data: chapter } = await supabase
-    .from('chapters')
-    .select('name')
-    .eq('id', actor.chapterId)
-    .maybeSingle();
+  const [{ data: cycle }, { data: chapter }, { data: nextSession }] = await Promise.all([
+    supabase
+      .from('cycles')
+      .select('id, name, start_date, end_date, points_cap')
+      .eq('chapter_id', actor.chapterId)
+      .lte('start_date', today)
+      .gte('end_date', today)
+      .maybeSingle(),
+    supabase.from('chapters').select('name').eq('id', actor.chapterId).maybeSingle(),
+    supabase
+      .from('mastermind_sessions')
+      .select('held_at')
+      .eq('chapter_id', actor.chapterId)
+      .gt('held_at', now.toISOString())
+      .order('held_at', { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+  ]);
   const chapterName = chapter?.name ?? 'Chapter';
-
-  const { data: nextSession } = await supabase
-    .from('mastermind_sessions')
-    .select('held_at')
-    .eq('chapter_id', actor.chapterId)
-    .gt('held_at', now.toISOString())
-    .order('held_at', { ascending: true })
-    .limit(1)
-    .maybeSingle();
 
   const week = cycle
     ? cycleWeekNumber(new Date(`${cycle.start_date}T00:00:00Z`), now)
@@ -59,15 +55,27 @@ export async function loadDashboard(actor: Actor, now = new Date()): Promise<Das
     ? `Next mastermind: ${formatInTimeZone(nextSession.held_at, NAIROBI_TZ, 'EEEE, d MMM · HH:mm')}`
     : 'No session scheduled';
 
-  const pointsPart = await loadPoints(actor, cycle?.id ?? null, cycle?.points_cap ?? 600);
-  const responsePart = await loadResponse(actor);
-  const volumePart = await loadVolume(actor, cycle?.start_date ?? null, cycle?.end_date ?? null);
-  const referralsPart = await loadReferrals(actor);
-  const actions = await loadActions(actor);
-  const pipeline = await loadPipeline(actor);
-  const match = await loadMatch(actor, chapterName);
-  const topic = await loadTopic(monthStart);
-  const allDeals = await listDealsForActor(actor);
+  const [
+    pointsPart,
+    responsePart,
+    volumePart,
+    referralsPart,
+    actions,
+    pipeline,
+    match,
+    topic,
+    allDeals,
+  ] = await Promise.all([
+    loadPoints(actor, cycle?.id ?? null, cycle?.points_cap ?? 600),
+    loadResponse(actor),
+    loadVolume(actor, cycle?.start_date ?? null, cycle?.end_date ?? null),
+    loadReferrals(actor),
+    loadActions(actor),
+    loadPipeline(actor),
+    loadMatch(actor, chapterName),
+    loadTopic(monthStart),
+    listDealsForActor(actor),
+  ]);
   const canVerifyDeals = canVerifyClosedBusiness(actor, actor.chapterId).allow;
   const deals = allDeals.filter((deal) => {
     if (deal.verifiedAt) return false;

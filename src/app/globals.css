@@ -690,6 +690,52 @@ iframe {
   animation: kito-fade-in 0.35s ease-out both;
 }
 
+.page-skeleton {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(14, 31, 26, 0.08);
+  background: #fff;
+  animation: kito-pulse 1.05s ease-in-out infinite;
+}
+
+.nav-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(211, 243, 107, 0.25);
+}
+
+.nav-progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: #d3f36b;
+  animation: kito-nav-progress 0.7s ease-in-out infinite;
+}
+
+@keyframes kito-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes kito-nav-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(280%);
+  }
+}
+
 .animate-soft-rise {
   animation: kito-soft-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -698,7 +744,9 @@ iframe {
   .animate-fade-in,
   .animate-soft-rise,
   .mk-hero__media,
-  .reveal {
+  .reveal,
+  .page-skeleton,
+  .nav-progress::after {
     animation: none !important;
     transition: none !important;
     transform: none !important;

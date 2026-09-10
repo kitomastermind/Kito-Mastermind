@@ -14,21 +14,23 @@ import { ReportsView } from './view';
 
 export default async function ReportsPage() {
   const actor = await requireActor();
-  const rows = await listMyContributions(actor);
-  const months = await loadChapterMonthBars();
-  const archive = await loadStatementArchive(actor);
-  const members = canRecordContribution(actor, actor.chapterId).allow
-    ? await listChapterMembers(actor)
-    : [];
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
-  const { data: cycle } = await supabase
-    .from('cycles')
-    .select('start_date, end_date')
-    .eq('chapter_id', actor.chapterId)
-    .lte('start_date', today)
-    .gte('end_date', today)
-    .maybeSingle();
+  const [rows, months, archive, members, { data: cycle }] = await Promise.all([
+    listMyContributions(actor),
+    loadChapterMonthBars(),
+    loadStatementArchive(actor),
+    canRecordContribution(actor, actor.chapterId).allow
+      ? listChapterMembers(actor)
+      : Promise.resolve([]),
+    supabase
+      .from('cycles')
+      .select('start_date, end_date')
+      .eq('chapter_id', actor.chapterId)
+      .lte('start_date', today)
+      .gte('end_date', today)
+      .maybeSingle(),
+  ]);
   const start = cycle?.start_date ?? '2026-07-01';
   const end = cycle?.end_date ?? '2026-09-30';
   const chapterCents = sumCents(

@@ -20,10 +20,13 @@ export default async function MatchPage({
     .eq('id', id)
     .maybeSingle();
   if (!match) notFound();
-  const { data: owners } = await supabase
-    .from('lead_pool')
-    .select('id, owner_id, owner_name')
-    .in('id', [match.lead_a_id, match.lead_b_id]);
+  const [{ data: owners }, { data: thread }] = await Promise.all([
+    supabase
+      .from('lead_pool')
+      .select('id, owner_id, owner_name')
+      .in('id', [match.lead_a_id, match.lead_b_id]),
+    supabase.from('match_threads').select('id').eq('match_id', match.id).maybeSingle(),
+  ]);
   const leadA = owners?.find((row) => row.id === match.lead_a_id);
   const leadB = owners?.find((row) => row.id === match.lead_b_id);
   if (!leadA?.owner_id || !leadB?.owner_id) notFound();
@@ -33,7 +36,6 @@ export default async function MatchPage({
     { ownerId: leadB.owner_id },
   );
   if (!decision.allow) notFound();
-  const { data: thread } = await supabase.from('match_threads').select('id').eq('match_id', match.id).maybeSingle();
   const { data: rows } = thread
     ? await supabase.from('match_messages').select('id, author_id, body, sent_at').eq('thread_id', thread.id).order('sent_at')
     : { data: [] as { id: string; author_id: string; body: string; sent_at: string }[] };

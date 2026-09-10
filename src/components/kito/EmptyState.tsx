@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export function EmptyState({
   heading,
   body,
@@ -13,9 +15,9 @@ export function EmptyState({
       <h3 className="text-sm font-bold text-[#0E1F1A]">{heading}</h3>
       <p className="mt-1 text-[11px] font-medium text-[#5A6B7D]">{body}</p>
       {action ? (
-        <a href={action.href} className="btn-primary mt-3">
+        <Link prefetch href={action.href} className="btn-primary mt-3">
           {action.label}
-        </a>
+        </Link>
       ) : null}
     </div>
   );

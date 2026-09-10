@@ -9,11 +9,13 @@ export default async function ChaptersPage() {
   const actor = await requireActor();
   if (!canManageChapters(actor).allow) redirect('/dashboard');
   const supabase = await createClient();
-  const { data: chapters } = await supabase.from('chapters').select('id, name, code, region, active').order('name');
-  const { data: dues } = await supabase
-    .from('dues_schedules')
-    .select('id, chapter_id, amount, day_of_month, effective_from')
-    .order('effective_from', { ascending: false });
+  const [{ data: chapters }, { data: dues }] = await Promise.all([
+    supabase.from('chapters').select('id, name, code, region, active').order('name'),
+    supabase
+      .from('dues_schedules')
+      .select('id, chapter_id, amount, day_of_month, effective_from')
+      .order('effective_from', { ascending: false }),
+  ]);
   return (
     <>
       <PageHeader eyebrow="Administration" title="Chapters and dues" />

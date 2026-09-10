@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
   BarChart3,
   Bell,
@@ -18,11 +18,9 @@ import {
   X,
 } from 'lucide-react';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { NotificationBell } from '@/components/kito/NotificationBell';
 import { BRAND } from '@/lib/brand';
 import { cn } from '@/lib/utils';
 import { logoutAction } from '@/server/actions/auth';
-import type { NotificationDto } from '@/server/repositories/notifications';
 
 type NavItem = { href: string; label: string; icon: typeof LayoutDashboard; short?: string };
 
@@ -40,6 +38,8 @@ const MORE: NavItem[] = [
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
+const WARM_HREFS = [...PRIMARY, ...MORE, { href: '/leads/new' }].map((item) => item.href);
+
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -49,25 +49,31 @@ export function PortalShell({
   fullName,
   chapterName,
   role,
-  unreadCount,
-  notifications,
   canAdmin,
+  desktopBell,
+  mobileBell,
 }: {
   children: React.ReactNode;
   fullName: string;
   chapterName: string;
   role: string;
-  unreadCount: number;
-  notifications: NotificationDto[];
   canAdmin: boolean;
+  desktopBell: ReactNode;
+  mobileBell: ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
   const [drawerPath, setDrawerPath] = useState(pathname);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
   if (pathname !== drawerPath) {
     setDrawerPath(pathname);
     setMoreOpen(false);
   }
+  if (pendingHref && pathname === pendingHref) {
+    setPendingHref(null);
+  }
+  const current = pendingHref ?? pathname;
   const initial = (fullName.trim()[0] ?? 'K').toUpperCase();
   const sidebar = [
     ...PRIMARY,
@@ -86,6 +92,22 @@ export function PortalShell({
       document.body.style.overflow = previousBody;
     };
   }, []);
+
+  useEffect(() => {
+    for (const href of WARM_HREFS) {
+      router.prefetch(href);
+    }
+    if (canAdmin) {
+      router.prefetch('/admin');
+    }
+  }, [canAdmin, router]);
+
+  function go(href: string) {
+    if (href !== pathname) {
+      setPendingHref(href);
+    }
+    setMoreOpen(false);
+  }
 
   return (
     <div className="portal-shell">
@@ -111,7 +133,9 @@ export function PortalShell({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={cn('sidebar-nav-link', isActive(pathname, item.href) && 'is-active')}
+                  prefetch
+                  onClick={() => go(item.href)}
+                  className={cn('sidebar-nav-link', isActive(current, item.href) && 'is-active')}
                 >
                   <Icon size={18} strokeWidth={1.5} />
                   {item.label}
@@ -128,7 +152,7 @@ export function PortalShell({
               <p className="truncate text-xs font-semibold text-white">{fullName}</p>
               <p className="truncate text-[10px] text-[#E8F0EA]/65">{role.replaceAll('_', ' ')}</p>
             </div>
-            <NotificationBell unreadCount={unreadCount} items={notifications} className="text-[#E8F0EA]" />
+            {desktopBell}
             <form action={logoutAction}>
               <button type="submit" aria-label="Sign out" className="touch-target text-[#E8F0EA]">
                 <LogOut size={18} strokeWidth={1.5} />
@@ -147,17 +171,18 @@ export function PortalShell({
             >
               <Menu size={20} />
             </button>
-            <Link href="/dashboard" className="flex flex-1 items-center gap-2">
+            <Link href="/dashboard" prefetch onClick={() => go('/dashboard')} className="flex flex-1 items-center gap-2">
               <BrandMark className="h-8 w-8" />
               <span className="text-sm font-bold text-[#0E1F1A]">{BRAND.name}</span>
             </Link>
-            <NotificationBell unreadCount={unreadCount} items={notifications} />
+            {mobileBell}
           </header>
 
-          <main className="min-h-0 flex-1 overflow-y-auto scroll-touch pb-[calc(var(--tab-bar-h)+var(--safe-bottom))] lg:pb-0">
+          <main className="relative min-h-0 flex-1 overflow-y-auto scroll-touch pb-[calc(var(--tab-bar-h)+var(--safe-bottom))] lg:pb-0">
+            {pendingHref && pendingHref !== pathname ? <div className="nav-progress" aria-hidden /> : null}
             <div className="main-pad">
               <div className="content-canvas">
-                <div className="portal-page animate-fade-in">{children}</div>
+                <div className="portal-page">{children}</div>
               </div>
             </div>
           </main>
@@ -165,11 +190,13 @@ export function PortalShell({
           <nav className="glass-tabbar safe-pad-x safe-pad-bottom fixed right-0 bottom-0 left-0 z-20 grid grid-cols-5 lg:hidden">
             {PRIMARY.map((item) => {
               const Icon = item.icon;
-              const active = isActive(pathname, item.href);
+              const active = isActive(current, item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch
+                  onClick={() => go(item.href)}
                   className="flex min-h-[52px] flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-[#5A6B7D]"
                 >
                   <span className={cn('rounded-md p-1', active && 'bg-[#D3F36B]/25 text-[#0E1F1A]')}>
@@ -217,7 +244,9 @@ export function PortalShell({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={cn('sidebar-nav-link', isActive(pathname, item.href) && 'is-active')}
+                    prefetch
+                    onClick={() => go(item.href)}
+                    className={cn('sidebar-nav-link', isActive(current, item.href) && 'is-active')}
                   >
                     <Icon size={18} strokeWidth={1.5} />
                     {item.label}

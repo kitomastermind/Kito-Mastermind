@@ -16,11 +16,11 @@ export default async function AuditPage({
   if (!canViewAuditLog(actor).allow) redirect('/dashboard');
   if (actor.role !== 'ADMIN' && actor.role !== 'CHAPTER_LEAD') redirect('/dashboard');
   const params = await searchParams;
-  const [rows, supabase] = await Promise.all([
+  const supabase = await createClient();
+  const [rows, { data: members }] = await Promise.all([
     listAuditEntries(actor, { action: params.action, subjectType: params.subject }),
-    createClient(),
+    supabase.from('profiles').select('id, full_name').order('full_name'),
   ]);
-  const { data: members } = await supabase.from('profiles').select('id, full_name').order('full_name');
   return (
     <>
       <PageHeader eyebrow="Administration" title="Audit log" />

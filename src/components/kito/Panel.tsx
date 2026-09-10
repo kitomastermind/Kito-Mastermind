@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 export function Panel({
@@ -33,9 +34,9 @@ export function PanelHead({
         </span>
       ) : null}
       {action ? (
-        <a className="text-xs font-semibold text-[#0E1F1A]" href={action.href}>
+        <Link prefetch className="text-xs font-semibold text-[#0E1F1A]" href={action.href}>
           {action.label}
-        </a>
+        </Link>
       ) : null}
     </header>
   );

@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { cache } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/lib/types/database';
 import { logger } from '@/lib/logger';
@@ -14,7 +15,7 @@ function required(name: string): string {
   return value;
 }
 
-export async function createClient(): Promise<SupabaseClient<Database>> {
+export const createClient = cache(async (): Promise<SupabaseClient<Database>> => {
   const cookieStore = await cookies();
   return createServerClient<Database>(
     required('NEXT_PUBLIC_SUPABASE_URL'),
@@ -38,9 +39,9 @@ export async function createClient(): Promise<SupabaseClient<Database>> {
       },
     },
   );
-}
+});
 
-export async function getActor(): Promise<Actor | null> {
+export const getActor = cache(async (): Promise<Actor | null> => {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return null;
@@ -63,7 +64,7 @@ export async function getActor(): Promise<Actor | null> {
     active: profile.active,
     fullName: profile.full_name,
   };
-}
+});
 
 export async function requireActor(): Promise<Actor> {
   const actor = await getActor();

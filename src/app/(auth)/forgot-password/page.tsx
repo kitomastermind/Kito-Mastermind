@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { Eyebrow } from '@/components/kito/Eyebrow';
@@ -53,9 +54,9 @@ export default function ForgotPasswordPage() {
             {notice}
           </p>
         </form>
-        <a href="/login" className="mt-2 inline-block text-sm font-semibold text-[#0E1F1A]">
+        <Link prefetch href="/login" className="mt-2 inline-block text-sm font-semibold text-[#0E1F1A]">
           Back to sign in
-        </a>
+        </Link>
       </div>
     </div>
   );
