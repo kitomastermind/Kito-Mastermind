@@ -4,7 +4,9 @@ import { SiteNav } from '@/components/marketing/SiteNav';
 import { Reveal } from '@/components/marketing/Reveal';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { BRAND } from '@/lib/brand';
-import { OG_DESCRIPTION, OG_TITLE, SITE_DESCRIPTION } from '@/lib/seo';
+import { OG_DESCRIPTION, OG_TITLE, SITE_DESCRIPTION, socialImages } from '@/lib/seo';
+
+const images = socialImages();
 
 export const metadata: Metadata = {
   title: OG_TITLE,
@@ -13,6 +15,13 @@ export const metadata: Metadata = {
     title: OG_TITLE,
     description: OG_DESCRIPTION,
     url: '/',
+    images: [images.whatsapp, images.wide],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    images: [images.twitter],
   },
 };
 

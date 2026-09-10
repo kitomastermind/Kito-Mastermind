@@ -11,3 +11,5 @@ services:
         value: "20"
       - key: NODE_ENV
         value: production
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://kito-mastermind.onrender.com

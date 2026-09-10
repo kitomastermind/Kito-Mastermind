@@ -1,3 +1,5 @@
+import { siteOrigin } from '@/lib/seo';
+
 export const EMAIL = {
   product: 'KITO Mastermind',
   eyebrow: 'CHAPTER NETWORK · MEMBERS ONLY',
@@ -14,7 +16,7 @@ export const EMAIL = {
 } as const;
 
 export function appUrl(): string {
-  return (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+  return siteOrigin();
 }
 
 export function absoluteAppUrl(path: string): string {

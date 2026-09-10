@@ -37,7 +37,7 @@ Every variable in `.env.example` must exist in `.env.local` (development) and in
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same page | Safe for the browser; RLS still applies |
 | `SUPABASE_SERVICE_ROLE_KEY` | Same page | Server only. Never prefix `NEXT_PUBLIC_` |
 | `SUPABASE_DB_URL` | Supabase → Project Settings → Database | Used by the CLI and `pnpm seed` |
-| `NEXT_PUBLIC_APP_URL` | Your domain, or `http://localhost:3000` | Used in invite links and emails |
+| `NEXT_PUBLIC_APP_URL` | `https://kito-mastermind.onrender.com` in production, or `http://localhost:3000` locally | Used in invite links, emails, and social preview |
 | `CRON_SECRET` | You generate | 32 random bytes, hex or base64. Guards `/api/cron/*` |
 | `ENCRYPTION_KEY` | You generate | 32-byte key, base64-encoded. Encrypts CRM tokens at rest |
 | `RESEND_API_KEY` | Resend dashboard | Transactional email |
@@ -158,7 +158,7 @@ This repo is a Next.js app. Create a **Node** web service (not Go). Root Directo
 
 Do not add `--hostname` or `--` after `pnpm start`. `next start` already binds `0.0.0.0` and reads Render's `PORT`.
 
-After the first successful deploy, set `NEXT_PUBLIC_APP_URL` to `https://<service>.onrender.com` and update Supabase Auth Site URL to the same host.
+After the first successful deploy, set `NEXT_PUBLIC_APP_URL` to `https://kito-mastermind.onrender.com` and update Supabase Auth Site URL to the same host.
 
 `render.yaml` in the repo root describes this service.
 

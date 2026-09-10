@@ -8,6 +8,7 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   siteUrl,
+  socialImages,
 } from '@/lib/seo';
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -38,6 +39,8 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ['500', '600'],
 });
 
+const images = socialImages();
+
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
   title: {
@@ -56,6 +59,9 @@ export const metadata: Metadata = {
     'accountability',
     'invitation only',
   ],
+  alternates: {
+    canonical: '/',
+  },
   icons: {
     icon: [{ url: '/mark.svg', type: 'image/svg+xml' }],
     apple: '/mark.svg',
@@ -70,11 +76,13 @@ export const metadata: Metadata = {
     description: OG_DESCRIPTION,
     url: '/',
     countryName: 'Kenya',
+    images: [images.whatsapp, images.wide],
   },
   twitter: {
     card: 'summary_large_image',
     title: OG_TITLE,
     description: OG_DESCRIPTION,
+    images: [images.twitter],
   },
   appleWebApp: {
     title: SITE_NAME,

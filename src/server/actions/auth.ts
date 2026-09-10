@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
+import { siteOrigin } from '@/lib/seo';
 import { writeAudit } from '@/server/audit';
 import {
   checkLoginRateLimit,
@@ -104,7 +105,7 @@ export async function forgotPasswordAction(input: unknown): Promise<ActionResult
     return { ok: false, error: 'Enter a valid email address.', fieldErrors: parsed.error.flatten().fieldErrors };
   }
   const supabase = await createClient();
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+  const origin = siteOrigin();
   const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email.trim().toLowerCase(), {
     redirectTo: `${origin}/reset-password`,
   });
@@ -191,8 +192,7 @@ export async function createInvitationAction(
     metadata: { role: parsed.data.role, chapterId: parsed.data.chapterId },
   });
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-  const inviteUrl = `${origin}/invite/${token}`;
+  const inviteUrl = `${siteOrigin()}/invite/${token}`;
   await sendInviteEmail(parsed.data.email.trim().toLowerCase(), inviteUrl);
   revalidatePath('/admin/members');
   return {

@@ -1,5 +1,6 @@
-import { supabaseAdmin } from '@/server/admin/client';
 import { createHash, randomBytes } from 'node:crypto';
+import { siteOrigin } from '@/lib/seo';
+import { supabaseAdmin } from '@/server/admin/client';
 import { sendInviteEmail } from '@/server/email/invite';
 
 export async function deactivateMember(profileId: string): Promise<void> {
@@ -35,8 +36,7 @@ export async function resendInvitation(invitationId: string): Promise<{ inviteUr
     .select('id, email')
     .single();
   if (error || !data) throw error ?? new Error('Invitation not found');
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
-  const inviteUrl = `${origin}/invite/${token}`;
+  const inviteUrl = `${siteOrigin()}/invite/${token}`;
   await sendInviteEmail(data.email, inviteUrl);
   return process.env.NODE_ENV === 'production' ? {} : { inviteUrl };
 }
