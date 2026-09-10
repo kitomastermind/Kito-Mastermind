@@ -45,6 +45,31 @@ export async function findInvitationByHash(
   return data as InvitationRow | null;
 }
 
+export async function provisionInvitedUser(input: {
+  email: string;
+  password: string;
+  fullName: string;
+  phone: string;
+  brokerage: string;
+}): Promise<{ userId: string }> {
+  const created = await supabaseAdmin.auth.admin.createUser({
+    email: input.email,
+    password: input.password,
+    email_confirm: true,
+    user_metadata: { full_name: input.fullName },
+  });
+  if (created.error || !created.data.user) {
+    throw new Error(created.error?.message ?? 'Could not create the account.');
+  }
+  await completeInvitationProfile({
+    profileId: created.data.user.id,
+    fullName: input.fullName,
+    phone: input.phone,
+    brokerage: input.brokerage,
+  });
+  return { userId: created.data.user.id };
+}
+
 export async function completeInvitationProfile(input: {
   profileId: string;
   fullName: string;

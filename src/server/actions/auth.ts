@@ -11,7 +11,7 @@ import {
   recordLoginAttempt,
   writeLoginAudit,
 } from '@/server/admin/login-attempts';
-import { sendEmail } from '@/server/email/send';
+import { sendInviteEmail } from '@/server/email/invite';
 import { canInviteMember } from '@/server/policy';
 import { createClient, requireActor } from '@/server/supabase/server';
 import type { ActionResult } from '@/server/actions/result';
@@ -193,12 +193,7 @@ export async function createInvitationAction(
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
   const inviteUrl = `${origin}/invite/${token}`;
-  await sendEmail({
-    to: parsed.data.email.trim().toLowerCase(),
-    subject: 'Your invitation to KITO Mastermind',
-    text: `You have been invited to KITO Mastermind. Accept it here: ${inviteUrl}`,
-    html: `<p>You have been invited to KITO Mastermind.</p><p><a href="${inviteUrl}">Accept your invitation</a></p>`,
-  });
+  await sendInviteEmail(parsed.data.email.trim().toLowerCase(), inviteUrl);
   revalidatePath('/admin/members');
   return {
     ok: true,

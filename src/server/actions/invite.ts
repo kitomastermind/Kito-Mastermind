@@ -2,10 +2,7 @@
 
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
-import {
-  completeInvitationProfile,
-  findInvitationByHash,
-} from '@/server/admin/invitations';
+import { provisionInvitedUser, findInvitationByHash } from '@/server/admin/invitations';
 import { createClient } from '@/server/supabase/server';
 import type { ActionResult } from '@/server/actions/result';
 
@@ -67,29 +64,26 @@ export async function acceptInvitationAction(
     return { ok: false, error: 'This invitation is no longer valid.' };
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
-    email: view.email,
-    password: parsed.data.password,
-    options: { data: { full_name: parsed.data.fullName } },
-  });
-  if (error) {
-    return { ok: false, error: error.message };
+  try {
+    await provisionInvitedUser({
+      email: view.email,
+      password: parsed.data.password,
+      fullName: parsed.data.fullName,
+      phone: parsed.data.phone,
+      brokerage: parsed.data.brokerage,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Could not finish setup.';
+    return { ok: false, error: message };
   }
 
-  const { data: auth } = await supabase.auth.getUser();
-  if (auth.user) {
-    try {
-      await completeInvitationProfile({
-        profileId: auth.user.id,
-        fullName: parsed.data.fullName,
-        phone: parsed.data.phone,
-        brokerage: parsed.data.brokerage,
-      });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not finish setup.';
-      return { ok: false, error: message };
-    }
+  const supabase = await createClient();
+  const { error: signError } = await supabase.auth.signInWithPassword({
+    email: view.email,
+    password: parsed.data.password,
+  });
+  if (signError) {
+    return { ok: false, error: signError.message };
   }
 
   return { ok: true, data: { redirectTo: '/dashboard' } };

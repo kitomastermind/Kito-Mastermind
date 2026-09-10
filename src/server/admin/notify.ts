@@ -52,7 +52,9 @@ export async function emailIfPreferred(
     logger.warn('notification-email-skipped', { reason: 'no-email' });
     return;
   }
-  await sendNotificationEmail(profile.email, copy.title, copy.body);
+  await sendNotificationEmail(profile.email, copy.title, copy.body, {
+    href: copy.linkPath,
+  });
   if (notificationId) {
     await supabaseAdmin
       .from('notifications')

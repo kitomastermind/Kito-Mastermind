@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "seed": "tsx supabase/seed.ts",
+    "bootstrap:live": "tsx supabase/bootstrap-live.ts",
     "gen:types": "supabase gen types typescript --local > src/lib/types/database.ts"
   },
   "dependencies": {

@@ -1,8 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { SiteNav } from '@/components/marketing/SiteNav';
 import { Reveal } from '@/components/marketing/Reveal';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { BRAND } from '@/lib/brand';
+import { OG_DESCRIPTION, OG_TITLE, SITE_DESCRIPTION } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: OG_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: '/',
+  },
+};
 
 const STEPS = [
   { n: '01', title: 'Enter the circle', body: 'Invitation-only chapters. You sit with people who actually ship work.' },

@@ -2,6 +2,13 @@ import type { Metadata, Viewport } from 'next';
 import { headers } from 'next/headers';
 import { IBM_Plex_Mono, Inter, Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import {
+  OG_DESCRIPTION,
+  OG_TITLE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  siteUrl,
+} from '@/lib/seo';
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -32,9 +39,51 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'KITO Mastermind',
-  description: 'The private accountability circle for production chapters.',
-  icons: { icon: '/mark.svg' },
+  metadataBase: siteUrl(),
+  title: {
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  category: 'business',
+  keywords: [
+    'KITO Mastermind',
+    'Kenya real estate',
+    'chapter network',
+    'accountability',
+    'invitation only',
+  ],
+  icons: {
+    icon: [{ url: '/mark.svg', type: 'image/svg+xml' }],
+    apple: '/mark.svg',
+  },
+  formatDetection: { telephone: false, email: false, address: false },
+  openGraph: {
+    type: 'website',
+    locale: 'en_KE',
+    alternateLocale: ['en'],
+    siteName: SITE_NAME,
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: '/',
+    countryName: 'Kenya',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+  },
+  appleWebApp: {
+    title: SITE_NAME,
+    statusBarStyle: 'black-translucent',
+    capable: true,
+  },
+  other: {
+    'og:site_name': SITE_NAME,
+  },
 };
 
 export const viewport: Viewport = {
@@ -50,7 +99,7 @@ export default async function RootLayout({
   await headers();
   return (
     <html
-      lang="en"
+      lang="en-KE"
       className={`${plusJakarta.variable} ${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
     >
       <body className="min-h-dvh bg-ambient font-sans text-ink antialiased">{children}</body>

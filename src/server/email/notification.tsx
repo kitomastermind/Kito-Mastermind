@@ -1,75 +1,35 @@
-import { Html, Head, Body, Container, Text, Heading, render } from '@react-email/components';
+import { render } from '@react-email/components';
+import { EmailParagraph, KitoEmailLayout } from '@/server/email/layout';
 import { sendEmail } from '@/server/email/send';
-
-function KitoEmail({ title, body }: { title: string; body: string }) {
-  return (
-    <Html>
-      <Head />
-      <Body style={{ backgroundColor: '#204559', margin: 0, padding: '32px 16px' }}>
-        <Container
-          style={{
-            backgroundColor: '#f6f3ea',
-            borderRadius: '6px',
-            padding: '28px 24px',
-            maxWidth: '420px',
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: 'IBM Plex Mono, ui-monospace, monospace',
-              fontSize: '11px',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#9ba63e',
-              margin: 0,
-            }}
-          >
-            KITO Mastermind
-          </Text>
-          <Heading
-            style={{
-              fontFamily: 'Fraunces, Georgia, serif',
-              fontSize: '22px',
-              fontWeight: 450,
-              color: '#204559',
-              margin: '12px 0',
-            }}
-          >
-            {title}
-          </Heading>
-          <Text
-            style={{
-              fontFamily: 'Inter, system-ui, sans-serif',
-              fontSize: '15px',
-              lineHeight: '1.5',
-              color: '#1b2e37',
-              margin: 0,
-            }}
-          >
-            {body}
-          </Text>
-        </Container>
-      </Body>
-    </Html>
-  );
-}
+import { absoluteAppUrl } from '@/server/email/tokens';
 
 export async function renderNotificationEmail(
   title: string,
   body: string,
+  options?: { href?: string | null; ctaLabel?: string },
 ): Promise<{ html: string; text: string }> {
-  return {
-    html: await render(<KitoEmail title={title} body={body} />),
-    text: `${title}\n\n${body}`,
-  };
+  const href = options?.href ? absoluteAppUrl(options.href) : undefined;
+  const html = await render(
+    <KitoEmailLayout
+      preview={body}
+      title={title}
+      ctaHref={href}
+      ctaLabel={href ? (options?.ctaLabel ?? 'Open in KITO') : undefined}
+    >
+      <EmailParagraph>{body}</EmailParagraph>
+    </KitoEmailLayout>,
+  );
+  const text = [title, '', body, href ? `\n${href}` : ''].filter(Boolean).join('\n');
+  return { html, text };
 }
 
 export async function sendNotificationEmail(
   to: string,
   title: string,
   body: string,
+  options?: { href?: string | null; ctaLabel?: string },
 ): Promise<void> {
-  const rendered = await renderNotificationEmail(title, body);
+  const rendered = await renderNotificationEmail(title, body, options);
   await sendEmail({
     to,
     subject: title,

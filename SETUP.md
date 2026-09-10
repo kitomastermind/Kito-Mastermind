@@ -65,11 +65,21 @@ openssl rand -base64 32
 
 ## 3. Supabase project
 
-1. Create a project (region closest to Nairobi; `eu-central-1` is the usual choice).
+1. Create a project (region closest to Nairobi; `eu-central-1` or `eu-west-1`).
 2. From this repo: `pnpm exec supabase link --project-ref <ref>`
 3. Push schema: `pnpm exec supabase db push`
-   (Local alternative: `pnpm exec supabase db reset`, which reapplies every migration through `20260101000016_matchable_pool_rpc.sql` — closed-business insert, rate limits, admin writes, and the matchable-leads RPC.)
+   (Local alternative: `pnpm exec supabase db reset`, which reapplies every migration through `20260101000018_storage_bucket.sql`.)
 4. Generate types after every schema change: `pnpm gen:types`
+5. Bootstrap live org data (chapters, Nairobi areas, current cycles, points caps). This does **not** load demo clients:
+
+```bash
+# .env.production.local must point at the hosted project
+pnpm bootstrap:live
+```
+
+Set `FIRST_ADMIN_EMAIL` (and optionally `FIRST_ADMIN_NAME` / `FIRST_ADMIN_PASSWORD`) in `.env.production.local` before the first bootstrap so the script can create the founding admin. Without that email, it still creates chapters and cycles, and you cannot log in until an admin exists.
+
+`pnpm seed` is local/demo only. It refuses to run against a `supabase.co` host unless `ALLOW_REMOTE_SEED=true` is set. Do not seed production with `@kito.test` accounts.
 
 Local development:
 
@@ -79,26 +89,26 @@ pnpm exec supabase status
 pnpm seed
 ```
 
-`pnpm seed` refuses to run against a `supabase.co` host unless `ALLOW_REMOTE_SEED=true` is set.
-
 ## 4. Supabase Auth dashboard settings
 
-Configure these exactly. The app is invitation-only; do not enable public signup.
+Configure these exactly. The product is invitation-only. There is no public register page.
+
+Invitation acceptance does **not** call `signUp`. It uses the service role to create a confirmed user, then signs them in. The `handle_new_auth_user` trigger still refuses any auth user that has no valid invitation. That is how you can disable public signup in the dashboard without blocking invited members.
 
 | Setting | Value |
 |---|---|
 | Email provider | Enabled |
-| Confirm email | Enabled |
+| Confirm email | Enabled (invited members are created already confirmed) |
 | Secure email change | Enabled |
 | Site URL | `NEXT_PUBLIC_APP_URL` |
 | Redirect URLs | `{APP_URL}/auth/callback`, `{APP_URL}/reset-password`, `{APP_URL}/invite/**` |
 | JWT expiry | 3600 |
-| SMTP | Your transactional sender (Resend SMTP or Supabase's) |
-| Invite / confirm templates | Point links at `{APP_URL}/invite/[token]` and `{APP_URL}/reset-password` |
+| SMTP | Resend SMTP (`smtp.resend.com`, user `resend`, pass = `RESEND_API_KEY`) |
+| Invite / confirm / recovery templates | Forest-lime HTML in `supabase/templates/` |
 
-Disable: phone auth, social providers, anonymous sign-in, public sign-ups.
+Disable: phone auth, social providers, anonymous sign-in, **public sign-ups**.
 
-Invitation acceptance creates `auth.users`. Trigger `handle_new_auth_user` then creates `public.profiles` only when a valid invitation exists. A signup without an invitation fails at the database.
+Auth emails (password reset, email change) go through Supabase + your SMTP. Product emails (invitations, access alerts, daily digest, statements) go through Resend via `src/server/email/`. Both use the same KITO chrome. `EMAIL_FROM` must be a verified Resend sender.
 
 Login is rate-limited to 5 failed attempts per email in 15 minutes (`login_attempts` table, service-role only). The sixth attempt returns a lockout message. Failures write `LOGIN_FAILED` / `LOGIN_LOCKED` audit rows.
 
@@ -173,13 +183,16 @@ Each handler requires `Authorization: Bearer ${CRON_SECRET}`.
 
 ## 10. Launch checklist
 
+- [x] Schema pushed to hosted Supabase (`db push` through `20260101000018_storage_bucket.sql`)
 - [ ] `pnpm typecheck && pnpm lint && pnpm test && pnpm build` green
 - [ ] Leak test `tests/e2e/leak.spec.ts` green
 Playwright E2E uses port `3001` (`pnpm exec next dev --port 3001`) so it does not collide with another app on 3000. Set `E2E_PORT` to override.
 - [ ] Chapter pool load test under 200ms at 500 leads
-- [ ] Auth settings from section 4 applied
-- [ ] Storage bucket private, CORS set
-- [ ] All env vars set in Vercel
+- [ ] Auth settings from section 4 applied (public signup off, branded templates, Resend SMTP)
+- [ ] Storage bucket `kito-files` private, CORS set
+- [ ] Founding admin created via `pnpm bootstrap:live`
+- [ ] All env vars set in Vercel (copy from `.env.production.local`, never commit it)
+- [ ] `RESEND_API_KEY` + verified `EMAIL_FROM` sending branded invites
 - [ ] `MPESA_ENABLED=false` until sandbox STK succeeds
 - [ ] Sentry PII scrubbing verified with a deliberate error
 - [ ] Backup restore tested (Supabase daily backups, 30-day retention)

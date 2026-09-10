@@ -77,7 +77,7 @@ export async function requestContactAccessAction(
       leadType: lead.leadType,
       leadId: lead.id,
     });
-    await sendNotificationEmail(owner.email, copy.title, copy.body);
+    await sendNotificationEmail(owner.email, copy.title, copy.body, { href: copy.linkPath });
   }
 
   revalidatePath('/leads');
@@ -118,7 +118,7 @@ export async function approveAccessAction(
       otherName: actor.fullName,
       leadId: request.lead_id,
     });
-    await sendNotificationEmail(requester.email, copy.title, copy.body);
+    await sendNotificationEmail(requester.email, copy.title, copy.body, { href: copy.linkPath });
   }
   revalidatePath(`/leads/${request.lead_id}`);
   return { ok: true, data: { grantId } };
@@ -157,7 +157,7 @@ export async function declineAccessAction(
     .maybeSingle();
   if (requester?.email) {
     const copy = notificationCopy('ACCESS_DENIED', { otherName: actor.fullName });
-    await sendNotificationEmail(requester.email, copy.title, copy.body);
+    await sendNotificationEmail(requester.email, copy.title, copy.body, { href: copy.linkPath });
   }
   revalidatePath(`/leads/${request.lead_id}`);
   return { ok: true, data: undefined };
@@ -196,7 +196,7 @@ export async function revokeGrantAction(
     .maybeSingle();
   if (grantee?.email) {
     const copy = notificationCopy('ACCESS_REVOKED', { otherName: actor.fullName });
-    await sendNotificationEmail(grantee.email, copy.title, copy.body);
+    await sendNotificationEmail(grantee.email, copy.title, copy.body, { href: copy.linkPath });
   }
   revalidatePath(`/leads/${grant.lead_id}`);
   return { ok: true, data: undefined };

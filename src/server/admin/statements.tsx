@@ -2,25 +2,25 @@ import { Document, Page, Text, View, StyleSheet, renderToBuffer } from '@react-p
 import { supabaseAdmin } from '@/server/admin/client';
 import { writeAudit } from '@/server/audit';
 import { formatKES, sumCents } from '@/server/services/money';
-import { sendNotificationEmail } from '@/server/email/notification';
+import { sendStatementEmail } from '@/server/email/statement';
 import { canViewChapterLedger } from '@/server/policy';
 import type { Actor } from '@/server/policy';
 import type { ActionResult } from '@/server/actions/result';
 import { formatNairobiDate } from '@/lib/format';
 
 const styles = StyleSheet.create({
-  page: { backgroundColor: '#f6f3ea', padding: 36, fontSize: 11, color: '#1b2e37' },
-  eyebrow: { color: '#9ba63e', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase' },
-  title: { color: '#204559', fontSize: 22, marginTop: 8, marginBottom: 16 },
+  page: { backgroundColor: '#EEF2EE', padding: 36, fontSize: 11, color: '#0E1F1A' },
+  eyebrow: { color: '#8A6A00', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase' },
+  title: { color: '#0E1F1A', fontSize: 22, marginTop: 8, marginBottom: 16 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 4,
     borderBottomWidth: 1,
-    borderBottomColor: '#e4e0d1',
+    borderBottomColor: '#E3E7E0',
   },
-  muted: { color: '#5f7079', fontSize: 10 },
-  total: { color: '#204559', fontSize: 14, marginTop: 12 },
+  muted: { color: '#5A6B7D', fontSize: 10 },
+  total: { color: '#0E1F1A', fontSize: 14, marginTop: 12 },
 });
 
 function StatementDoc({
@@ -188,11 +188,7 @@ export async function generateAndStoreStatement(input: {
     .eq('id', input.actor.id)
     .maybeSingle();
   if (profile?.email) {
-    await sendNotificationEmail(
-      profile.email,
-      'Statement generated',
-      `Your ${input.format} statement ${reference} is ready in Reports archive.`,
-    );
+    await sendStatementEmail(profile.email, { reference, format: input.format });
   }
   return { ok: true, data: { reference } };
 }

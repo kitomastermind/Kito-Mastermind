@@ -1,6 +1,6 @@
 import { supabaseAdmin } from '@/server/admin/client';
 import { createHash, randomBytes } from 'node:crypto';
-import { sendEmail } from '@/server/email/send';
+import { sendInviteEmail } from '@/server/email/invite';
 
 export async function deactivateMember(profileId: string): Promise<void> {
   const now = new Date().toISOString();
@@ -37,11 +37,6 @@ export async function resendInvitation(invitationId: string): Promise<{ inviteUr
   if (error || !data) throw error ?? new Error('Invitation not found');
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
   const inviteUrl = `${origin}/invite/${token}`;
-  await sendEmail({
-    to: data.email,
-    subject: 'Your invitation to KITO Mastermind',
-    text: `You have been invited to KITO Mastermind. Accept it here: ${inviteUrl}`,
-    html: `<p>You have been invited to KITO Mastermind.</p><p><a href="${inviteUrl}">Accept your invitation</a></p>`,
-  });
+  await sendInviteEmail(data.email, inviteUrl);
   return process.env.NODE_ENV === 'production' ? {} : { inviteUrl };
 }

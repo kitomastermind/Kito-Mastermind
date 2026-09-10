@@ -1,5 +1,5 @@
 import { supabaseAdmin } from '@/server/admin/client';
-import { sendNotificationEmail } from '@/server/email/notification';
+import { sendDigestEmail } from '@/server/email/digest';
 import { isImmediateEmailType } from '@/server/services/notification-copy';
 
 export async function sendDailyDigests(): Promise<{ sent: number; skipped: number }> {
@@ -38,8 +38,10 @@ export async function sendDailyDigests(): Promise<{ sent: number; skipped: numbe
       skipped += 1;
       continue;
     }
-    const body = rows.map((row) => `${row.title}: ${row.body}`).join('\n');
-    await sendNotificationEmail(profile.email, 'Your KITO Mastermind digest', body);
+    await sendDigestEmail(
+      profile.email,
+      rows.map((row) => ({ title: row.title, body: row.body })),
+    );
     const ids = rows.map((row) => row.id);
     await supabaseAdmin
       .from('notifications')
