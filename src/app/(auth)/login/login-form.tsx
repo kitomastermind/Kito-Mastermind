@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { loginAction } from '@/server/actions/auth';
+import { DEMO_LOGINS, DEMO_PASSWORD } from '@/lib/demo-logins';
 
 const emptySubscribe = () => () => undefined;
 
@@ -17,11 +18,10 @@ export function LoginForm() {
   const [notice, setNotice] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function signIn(nextEmail: string, nextPassword: string) {
     setSubmitting(true);
     setNotice('Signing you in…');
-    const result = await loginAction({ email, password, remember });
+    const result = await loginAction({ email: nextEmail, password: nextPassword, remember });
     if (!result.ok) {
       setNotice(result.error);
       setSubmitting(false);
@@ -30,12 +30,45 @@ export function LoginForm() {
     router.push(result.data.redirectTo);
   }
 
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await signIn(email, password);
+  }
+
+  async function fillDemo(nextEmail: string) {
+    setEmail(nextEmail);
+    setPassword(DEMO_PASSWORD);
+    setShowPassword(true);
+    await signIn(nextEmail, DEMO_PASSWORD);
+  }
+
   return (
     <form
       onSubmit={onSubmit}
       data-hydrated={hydrated ? 'ready' : 'pending'}
       className="space-y-4"
     >
+      <div className="rounded-xl border border-[#0E1F1A]/10 bg-[#EEF2EE] p-3">
+        <p className="text-[11px] font-semibold tracking-[0.08em] text-[#5A6B7D] uppercase">
+          Reviewer logins · temporary
+        </p>
+        <p className="mt-1 mb-2 text-xs text-[#5A6B7D]">
+          Click a role to fill the form and sign in. Same password for all demo accounts.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {DEMO_LOGINS.map((account) => (
+            <button
+              key={account.email}
+              type="button"
+              disabled={!hydrated || submitting}
+              onClick={() => void fillDemo(account.email)}
+              className="rounded-full border border-[#0E1F1A]/15 bg-white px-3 py-1.5 text-sm font-semibold text-[#0E1F1A] disabled:opacity-50"
+            >
+              {account.role}
+            </button>
+          ))}
+        </div>
+      </div>
       <label className="block" htmlFor="login-email">
         <span className="field-label">Email</span>
         <input

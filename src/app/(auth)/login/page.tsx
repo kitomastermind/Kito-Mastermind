@@ -28,7 +28,7 @@ export default function LoginPage() {
         <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
           <h2 className="text-lg font-bold tracking-tight text-[#0E1F1A]">Sign in to your chapter</h2>
           <p className="mt-1 mb-5 text-sm font-medium text-[#5A6B7D]">
-            Enter your member credentials to continue.
+            Enter your member credentials, or pick a reviewer role below.
           </p>
           <LoginForm />
           <div className="mt-2 border-t border-[#0E1F1A]/10 pt-4 text-sm text-[#5A6B7D]">
