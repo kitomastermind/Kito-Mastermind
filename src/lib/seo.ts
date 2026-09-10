@@ -56,22 +56,25 @@ export function socialImages() {
   const origin = siteOrigin();
   return {
     whatsapp: {
-      url: `${origin}/opengraph-image/whatsapp`,
+      url: `${origin}/og/whatsapp.png`,
       width: 1200,
       height: 1200,
       alt: OG_ALT,
+      type: 'image/png' as const,
     },
     wide: {
-      url: `${origin}/opengraph-image/wide`,
+      url: `${origin}/og/wide.png`,
       width: 1200,
       height: 630,
       alt: OG_ALT,
+      type: 'image/png' as const,
     },
     twitter: {
-      url: `${origin}/twitter-image`,
+      url: `${origin}/og/twitter.png`,
       width: 1200,
       height: 630,
       alt: OG_ALT,
+      type: 'image/png' as const,
     },
   };
 }

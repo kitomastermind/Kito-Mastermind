@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { ReactElement } from 'react';
+import React, { type ReactElement } from 'react';
 
 const FOREST = '#0E1F1A';
 const FOREST_SOFT = '#1A3A2E';

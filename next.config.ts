@@ -13,7 +13,23 @@ const nextConfig: NextConfig = {
     },
   },
   async headers() {
-    return [{ source: '/:path*', headers: SECURITY_HEADERS }];
+    return [
+      { source: '/:path*', headers: SECURITY_HEADERS },
+      {
+        source: '/og/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, immutable' },
+          { key: 'Content-Type', value: 'image/png' },
+        ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      { source: '/opengraph-image/whatsapp', destination: '/og/whatsapp.png', permanent: false },
+      { source: '/opengraph-image/wide', destination: '/og/wide.png', permanent: false },
+      { source: '/twitter-image', destination: '/og/twitter.png', permanent: false },
+    ];
   },
 };
 

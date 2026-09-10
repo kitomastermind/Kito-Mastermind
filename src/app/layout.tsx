@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { headers } from 'next/headers';
 import { IBM_Plex_Mono, Inter, Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import {
@@ -91,6 +90,9 @@ export const metadata: Metadata = {
   },
   other: {
     'og:site_name': SITE_NAME,
+    'og:type': 'website',
+    'og:image:type': 'image/png',
+    'og:image:secure_url': images.whatsapp.url,
   },
 };
 
@@ -99,12 +101,11 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await headers();
   return (
     <html
       lang="en-KE"

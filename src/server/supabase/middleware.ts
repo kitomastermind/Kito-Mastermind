@@ -28,6 +28,15 @@ export async function updateSession(request: NextRequest): Promise<NextResponse>
     return response;
   }
 
+  const pathname = request.nextUrl.pathname;
+  const ua = request.headers.get('user-agent') ?? '';
+  const skipAuth =
+    pathname === '/' ||
+    /facebookexternalhit|WhatsApp|Twitterbot|LinkedInBot|Slackbot|TelegramBot|Discordbot/i.test(ua);
+  if (skipAuth) {
+    return response;
+  }
+
   const supabase = createServerClient<Database>(url, anon, {
     cookies: {
       getAll() {
