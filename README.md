@@ -4,6 +4,15 @@ Invitation-only platform for Kenyan real estate mastermind chapters. Next.js 15 
 
 A client's name, phone, email and notes belong to the agent who logged the lead. There is no admin override.
 
+Repository: [github.com/kitomastermind/Kito-Mastermind](https://github.com/kitomastermind/Kito-Mastermind)
+
+```bash
+git clone https://github.com/kitomastermind/Kito-Mastermind.git
+cd Kito-Mastermind
+```
+
+This directory is the project root (Vercel, `pnpm`, and Supabase CLI all run from here).
+
 ## Scripts
 
 | Command | What it does |
@@ -17,6 +26,12 @@ A client's name, phone, email and notes belong to the agent who logged the lead.
 | `pnpm seed` | Load demo data (blocked against remote unless `ALLOW_REMOTE_SEED=true`) |
 | `pnpm gen:types` | Generate `src/lib/types/database.ts` from local Supabase |
 
+Production gate from `SETUP.md`:
+
+```bash
+pnpm typecheck && pnpm lint && pnpm test && pnpm build
+```
+
 ## Setup
 
 Follow `SETUP.md`. Copy `.env.example` to `.env.local` and fill every variable.
@@ -25,3 +40,14 @@ Follow `SETUP.md`. Copy `.env.example` to `.env.local` and fill every variable.
 
 - `SETUP.md` — human handoff (Supabase, Auth, storage, M-Pesa, Vercel)
 - `DECISIONS.md` — choices made under the open-decision rules
+
+## Project structure
+
+```
+src/app/            Routes, layouts, API, marketing + portal pages
+src/components/     Brand, portal shell, marketing, shared UI
+src/server/         Actions, policy, repositories, Supabase
+src/lib/            Brand, types, security headers
+supabase/           Migrations and seed
+tests/              Unit, policy, integration, e2e
+```

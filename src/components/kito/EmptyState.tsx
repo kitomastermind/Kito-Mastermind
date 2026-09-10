@@ -9,14 +9,11 @@ export function EmptyState({
   action?: { label: string; href: string };
 }) {
   return (
-    <div className="px-4 py-10 text-center">
-      <h3 className="font-display text-xl font-[450] text-primary">{heading}</h3>
-      <p className="mt-2 text-sm text-muted">{body}</p>
+    <div className="portal-empty m-3">
+      <h3 className="text-sm font-bold text-[#0E1F1A]">{heading}</h3>
+      <p className="mt-1 text-[11px] font-medium text-[#5A6B7D]">{body}</p>
       {action ? (
-        <a
-          href={action.href}
-          className="mt-4 inline-flex h-11 items-center rounded-[4px] bg-secondary px-4 font-semibold text-primary-deep"
-        >
+        <a href={action.href} className="btn-primary mt-3">
           {action.label}
         </a>
       ) : null}

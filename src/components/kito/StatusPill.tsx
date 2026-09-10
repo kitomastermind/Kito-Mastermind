@@ -1,13 +1,13 @@
 import { cn } from '@/lib/utils';
 
 const TONES = {
-  paid: 'bg-secondary-pale text-primary',
-  pending: 'bg-danger-pale text-danger-ink',
-  due: 'bg-danger-pale text-danger-ink',
-  overdue: 'bg-danger-pale text-danger-ink',
-  verify: 'bg-secondary-pale text-primary',
-  completed: 'bg-secondary-pale text-primary',
-  neutral: 'bg-cream-dim text-muted',
+  paid: 'bg-[#F4FBE3] text-[#1A3A2E]',
+  pending: 'bg-[#FFF8E0] text-[#8A6A00]',
+  due: 'bg-[#FFF8E0] text-[#8A6A00]',
+  overdue: 'bg-red-50 text-red-700',
+  verify: 'bg-[#F4FBE3] text-[#1A3A2E]',
+  completed: 'bg-[#F4FBE3] text-[#1A3A2E]',
+  neutral: 'bg-[#F7FAF6] text-[#5A6B7D]',
 } as const;
 
 export function StatusPill({
@@ -18,7 +18,7 @@ export function StatusPill({
   children: React.ReactNode;
 }) {
   return (
-    <span className={cn('rounded-full px-2 py-0.5 text-xs font-medium', TONES[tone])}>
+    <span className={cn('rounded-md px-2 py-0.5 font-mono text-xs font-medium uppercase', TONES[tone])}>
       {children}
     </span>
   );

@@ -10,10 +10,10 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        'font-mono text-[11px] font-medium uppercase tracking-[0.22em]',
-        tone === 'muted' && 'text-muted',
-        tone === 'secondary' && 'text-primary',
-        tone === 'onDark' && 'text-chart-4',
+        'font-marketing text-[12px] font-semibold tracking-[0.16em] uppercase',
+        tone === 'muted' && 'text-[#5A6B7D]',
+        tone === 'secondary' && 'text-[#3B7A4E]',
+        tone === 'onDark' && 'text-[#D3F36B]',
       )}
     >
       {children}

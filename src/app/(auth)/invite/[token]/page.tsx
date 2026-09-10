@@ -18,10 +18,12 @@ export default async function InvitePage({
   const invitation = await loadInvitation(token);
 
   return (
-    <div className="text-center">
-      <Eyebrow tone="onDark">CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
-      <div className="shadow-login mt-8 rounded-[6px] border border-line bg-cream p-6 text-left text-ink">
-        <h1 className="font-display text-2xl font-[450] text-primary">
+    <div className="mx-auto w-full max-w-[420px]">
+      <div className="mb-6 text-center">
+        <Eyebrow tone="onDark">Chapter circle · members only</Eyebrow>
+      </div>
+      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
+        <h1 className="text-lg font-bold text-[#0E1F1A]">
           Join your chapter
         </h1>
         {invitation.state === 'valid' ? (
@@ -34,7 +36,7 @@ export default async function InvitePage({
             />
           </div>
         ) : (
-          <p className="mt-4 text-sm text-muted">{MESSAGES[invitation.state]}</p>
+          <p className="mt-4 text-sm text-[#5A6B7D]">{MESSAGES[invitation.state]}</p>
         )}
       </div>
     </div>

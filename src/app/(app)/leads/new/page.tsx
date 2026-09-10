@@ -7,6 +7,9 @@ export default async function NewLeadPage() {
   return (
     <>
       <PageHeader eyebrow="Leads" title="Log a lead" />
+      <div className="portal-callout">
+        Client name, phone, email and notes stay yours. Matching members see a sealed card until you grant access.
+      </div>
       <LeadWizard />
     </>
   );

@@ -18,6 +18,9 @@ export default async function SettingsPage() {
   return (
     <>
       <PageHeader eyebrow="Account" title="Settings" />
+      <div className="portal-callout">
+        Profile details stay inside your chapter. Client PII never lives on this screen.
+      </div>
       <SettingsForm
         fullName={profile?.full_name ?? actor.fullName}
         phone={profile?.phone ?? ''}

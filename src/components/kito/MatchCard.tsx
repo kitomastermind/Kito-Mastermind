@@ -22,7 +22,7 @@ export function MatchCard({
 }) {
   const strong = score >= 80;
   return (
-    <article className="rounded-[6px] border border-line bg-cream-flat p-4">
+    <article className="rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white p-4">
       <p className="text-sm text-ink">Existing lead by {ownerName}</p>
       <p className="text-xs text-muted">
         Logged {loggedAt} · {chapterName} Chapter
@@ -51,7 +51,7 @@ export function MatchCard({
           type="button"
           onClick={onRequest}
           disabled={!onRequest || requestState !== 'pending'}
-          className="h-11 rounded-[4px] bg-secondary px-3 text-sm font-semibold text-primary-deep disabled:opacity-60"
+          className="btn-primary disabled:opacity-60"
         >
           Request contact access
         </button>
@@ -59,7 +59,7 @@ export function MatchCard({
           type="button"
           onClick={onMessage}
           disabled={!onMessage}
-          className="h-11 rounded-[4px] border border-line px-3 text-sm text-primary"
+          className="btn-secondary"
         >
           Message {ownerName.split(' ')[0] ?? ownerName} in KITO Mastermind
         </button>

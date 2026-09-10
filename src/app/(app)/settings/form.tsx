@@ -35,9 +35,9 @@ export function SettingsForm({
   const [confirm, setConfirm] = useState('');
   const [notice, setNotice] = useState('');
   return (
-    <div className="space-y-6">
+    <div className="portal-grid-2">
       <form
-        className="space-y-3 rounded-[6px] border border-line bg-cream-flat p-4"
+        className="form-surface space-y-3"
         onSubmit={async (event) => {
           event.preventDefault();
           const result = await updateProfileAction({ fullName: name, phone: phoneValue, brokerage: broker });
@@ -54,10 +54,10 @@ export function SettingsForm({
         <label className="block text-sm" htmlFor="settings-broker">Brokerage
           <input id="settings-broker" value={broker} onChange={(e) => setBroker(e.target.value)} className="mt-1 h-11 w-full rounded-[4px] border border-line bg-cream px-3 text-sm" />
         </label>
-        <button type="submit" className="h-11 rounded-[4px] bg-secondary px-4 text-sm font-semibold text-primary-deep">Save profile</button>
+        <button type="submit" className="btn-primary">Save profile</button>
       </form>
       <form
-        className="space-y-3 rounded-[6px] border border-line bg-cream-flat p-4"
+        className="form-surface space-y-3"
         onSubmit={async (event) => {
           event.preventDefault();
           const result = await resetPasswordAction({ password, confirm });
@@ -71,10 +71,10 @@ export function SettingsForm({
         <label className="block text-sm" htmlFor="settings-confirm">Confirm password
           <input id="settings-confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className="mt-1 h-11 w-full rounded-[4px] border border-line bg-cream px-3 text-sm" />
         </label>
-        <button type="submit" className="h-11 rounded-[4px] bg-secondary px-4 text-sm font-semibold text-primary-deep">Change password</button>
+        <button type="submit" className="btn-primary">Change password</button>
       </form>
       <form
-        className="space-y-3 rounded-[6px] border border-line bg-cream-flat p-4"
+        className="form-surface space-y-3"
         onSubmit={async (event) => {
           event.preventDefault();
           const result = await updateEmailPreferencesAction({ digest: emailDigest, immediate: selected });
@@ -100,16 +100,16 @@ export function SettingsForm({
             {type.replaceAll('_', ' ')}
           </label>
         ))}
-        <button type="submit" className="h-11 rounded-[4px] bg-secondary px-4 text-sm font-semibold text-primary-deep">Save preferences</button>
+        <button type="submit" className="btn-primary">Save preferences</button>
       </form>
-      <section className="rounded-[6px] border border-line bg-cream-flat p-4">
+      <section className="form-surface">
         <p className="text-sm font-semibold">CRM connections</p>
-        <p className="mt-2 text-sm text-muted">Follow Up Boss, HubSpot, kvCORE and Zoho are disabled in v1.</p>
-        <button type="button" disabled className="mt-3 h-11 rounded-[4px] border border-line px-4 text-sm opacity-50">
+        <p className="mt-2 text-sm text-[#5A6B7D]">Follow Up Boss, HubSpot, kvCORE and Zoho are disabled in v1.</p>
+        <button type="button" disabled className="btn-secondary mt-3 opacity-50">
           Connect CRM
         </button>
       </section>
-      <p className="text-sm text-muted" aria-live="polite">{notice}</p>
+      <p className="text-sm text-[#5A6B7D] md:col-span-2" aria-live="polite">{notice}</p>
     </div>
   );
 }

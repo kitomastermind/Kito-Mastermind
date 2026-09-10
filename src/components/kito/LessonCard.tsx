@@ -79,8 +79,8 @@ export function LessonCard({
     <article
       className={
         isTop
-          ? 'rounded-[6px] border border-secondary bg-cream-flat p-4'
-          : 'rounded-[6px] border border-line bg-cream-flat p-4'
+          ? 'rounded-[0.625rem] border border-[#D3F36B] bg-white p-4'
+          : 'rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white p-4'
       }
     >
       {isTop ? <p className="mb-2 text-xs text-primary">★ Top lesson</p> : null}

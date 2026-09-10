@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { BrandMark } from '@/components/brand/BrandMark';
 import { Eyebrow } from '@/components/kito/Eyebrow';
 import { resetPasswordAction } from '@/server/actions/auth';
 
@@ -25,47 +26,42 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="text-center">
-      <Eyebrow tone="onDark">CHAPTER NETWORK · MEMBERS ONLY</Eyebrow>
-      <div
-        className="shadow-login mt-8 rounded-[6px] border border-line bg-cream p-6 text-left text-ink"
-      >
-        <h1 className="font-display text-2xl font-[450] text-primary">Choose a new password</h1>
+    <div className="mx-auto w-full max-w-[420px]">
+      <div className="mb-6 text-center">
+        <BrandMark className="mx-auto h-12 w-12" />
+        <div className="mt-4">
+          <Eyebrow tone="onDark">Chapter circle · members only</Eyebrow>
+        </div>
+      </div>
+      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
+        <h1 className="text-lg font-bold text-[#0E1F1A]">Choose a new password</h1>
         <form onSubmit={onSubmit} className="mt-5 space-y-4">
           <label className="block">
-            <span className="mb-1 block text-[11px] font-semibold tracking-[0.05em] text-primary uppercase">
-              New password
-            </span>
+            <span className="field-label">New password</span>
             <input
               type="password"
               required
               minLength={12}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="h-11 w-full rounded-[4px] border border-line bg-cream-flat px-3"
+              className="input-glass"
             />
           </label>
           <label className="block">
-            <span className="mb-1 block text-[11px] font-semibold tracking-[0.05em] text-primary uppercase">
-              Confirm password
-            </span>
+            <span className="field-label">Confirm password</span>
             <input
               type="password"
               required
               minLength={12}
               value={confirm}
               onChange={(event) => setConfirm(event.target.value)}
-              className="h-11 w-full rounded-[4px] border border-line bg-cream-flat px-3"
+              className="input-glass"
             />
           </label>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="h-11 w-full rounded-[4px] bg-secondary font-semibold text-primary-deep"
-          >
+          <button type="submit" disabled={submitting} className="btn-primary w-full">
             {submitting ? 'Saving…' : 'Save password'}
           </button>
-          <p className="min-h-4 text-sm text-muted" aria-live="polite">
+          <p className="min-h-4 text-sm text-red-700" aria-live="polite">
             {notice}
           </p>
         </form>

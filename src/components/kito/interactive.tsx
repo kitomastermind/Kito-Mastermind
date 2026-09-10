@@ -20,7 +20,7 @@ export function ActionItem({
   strike?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 border-b border-line px-4 py-3">
+    <div className="flex items-center gap-3 border-b border-[#0E1F1A]/8 px-4 py-3">
       <button
         type="button"
         role="checkbox"
@@ -28,8 +28,8 @@ export function ActionItem({
         aria-label={checked ? `Completed: ${title}` : `Mark complete: ${title}`}
         onClick={onToggle}
         className={cn(
-          'size-11 shrink-0 rounded-full border border-line',
-          checked && 'bg-secondary-pale',
+          'size-11 shrink-0 rounded-md border border-[#0E1F1A]/10',
+          checked && 'bg-[#F4FBE3]',
         )}
       />
       <div className="min-w-0 flex-1">
@@ -44,7 +44,7 @@ export function ActionItem({
 
 export function LockStrip({ ownerFirstName }: { ownerFirstName: string }) {
   return (
-    <p className="rounded-[4px] bg-cream-dim px-3 py-2 text-sm text-muted">
+    <p className="rounded-lg bg-[#F7FAF6] px-3 py-2 text-sm text-[#5A6B7D]">
       Client contact details are hidden until {ownerFirstName} approves access
     </p>
   );
@@ -69,8 +69,8 @@ export function FilterChipRow({
           className={cn(
             'h-11 rounded-full border px-3 text-sm',
             value === option.id
-              ? 'border-secondary bg-secondary-pale text-primary'
-              : 'border-line text-muted',
+              ? 'border-[#D3F36B] bg-[#D3F36B] text-[#0E1F1A]'
+              : 'border-[#0E1F1A]/10 text-[#5A6B7D]',
           )}
         >
           {option.label}
@@ -125,20 +125,25 @@ export function ConfirmDialog({
 }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/40 p-4">
-      <div role="dialog" aria-modal="true" className="w-full max-w-md rounded-[6px] border border-line bg-cream p-5">
-        <h2 className="font-display text-xl text-primary">{title}</h2>
-        <p className="mt-2 text-sm text-muted">{body}</p>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/40 p-4 backdrop-blur-sm sm:items-center">
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="animate-fade-in w-full rounded-xl border border-[#0E1F1A]/10 bg-white p-5 sm:max-w-md"
+      >
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#0E1F1A]/15 sm:hidden" />
+        <h2 className="text-base font-bold text-[#0E1F1A]">{title}</h2>
+        <p className="mt-2 text-sm text-[#5A6B7D]">{body}</p>
         <div className="mt-4 flex justify-end gap-2">
-          <button type="button" className="h-11 rounded-[4px] px-3" onClick={onClose}>
+          <button type="button" className="btn-secondary min-h-[48px]" onClick={onClose}>
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
             className={cn(
-              'h-11 rounded-[4px] px-3 font-semibold',
-              destructive ? 'bg-danger-pale text-danger-ink' : 'bg-secondary text-primary-deep',
+              'min-h-[48px] rounded-2xl px-5 text-sm font-bold',
+              destructive ? 'bg-destructive text-white' : 'btn-primary',
             )}
           >
             {confirmLabel}

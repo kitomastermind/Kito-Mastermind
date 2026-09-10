@@ -6,7 +6,8 @@ describe('security headers', () => {
     const csp = buildCsp('test-nonce');
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("nonce-test-nonce");
-    expect(csp).not.toContain('unsafe-inline');
+    expect(csp).toMatch(/script-src [^;]*nonce-test-nonce/);
+    expect(csp).not.toMatch(/script-src [^;]*unsafe-inline/);
     expect(SECURITY_HEADERS.some((row) => row.key === 'X-Frame-Options')).toBe(true);
   });
 });

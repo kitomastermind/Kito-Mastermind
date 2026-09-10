@@ -1,6 +1,5 @@
 import { Panel, PanelHead } from '@/components/kito/Panel';
 import { EmptyState } from '@/components/kito/EmptyState';
-import { RingMotif } from '@/components/kito/RingMotif';
 import { formatNairobiDate } from '@/lib/format';
 import type { LessonView, TopicView } from '@/server/repositories/forum';
 import { LessonFeed } from './feed';
@@ -29,19 +28,18 @@ export function ForumView({
 }) {
   const topic = model.topic;
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
-      <div className="space-y-6">
-        <Panel className="relative overflow-hidden bg-primary text-cream">
-          <RingMotif />
+    <div className="portal-split--aside">
+      <div className="flex flex-col gap-3">
+        <Panel className="relative overflow-hidden bg-[#0E1F1A] text-[#F3FAF5]">
           <div className="relative p-5">
             {topic ? (
               <>
-                <p className="font-mono text-[11px] tracking-[0.22em] text-chart-4 uppercase">
+                <p className="font-marketing text-[12px] font-semibold tracking-[0.16em] text-[#D3F36B] uppercase">
                   {formatNairobiDate(topic.month, 'MMMM')} Topic
                 </p>
-                <h2 className="mt-2 font-display text-3xl font-[450]">{topic.title}</h2>
-                <p className="mt-2 text-sm text-cream">{topic.description}</p>
-                <p className="mt-3 text-xs text-cream">
+                <h2 className="mt-2 text-lg font-bold tracking-tight">{topic.title}</h2>
+                <p className="mt-2 text-sm text-white/75">{topic.description}</p>
+                <p className="mt-3 text-xs text-white/65">
                   {model.lessonCount} lessons · {model.voteCount} votes · Voting closes{' '}
                   {formatNairobiDate(topic.votingClosesAt)}
                 </p>
@@ -65,7 +63,7 @@ export function ForumView({
           <EmptyState heading="No topic is open this month yet." body="Lessons appear when your chapter lead opens the month." />
         )}
       </div>
-      <aside className="space-y-6">
+      <aside className="flex flex-col gap-3">
         <Panel>
           <PanelHead title="Top lessons this quarter" />
           <ul>

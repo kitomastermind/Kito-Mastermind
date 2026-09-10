@@ -1,32 +1,45 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { headers } from 'next/headers';
-import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
+import { IBM_Plex_Mono, Inter, Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const fraunces = Fraunces({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-fraunces',
+  variable: '--font-plus-jakarta',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+  weight: ['400', '500', '600', '700'],
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-ibm-plex-mono',
-  weight: ['400', '500'],
+  weight: ['500', '600'],
 });
 
 export const metadata: Metadata = {
   title: 'KITO Mastermind',
-  description:
-    'The private accountability and production network for Kito mastermind chapters.',
+  description: 'The private accountability circle for production chapters.',
+  icons: { icon: '/mark.svg' },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0E1F1A',
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({
@@ -38,11 +51,9 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${inter.variable} ${ibmPlexMono.variable}`}
+      className={`${plusJakarta.variable} ${inter.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
     >
-      <body className="min-h-screen bg-cream font-sans text-ink antialiased">
-        {children}
-      </body>
+      <body className="min-h-dvh bg-ambient font-sans text-ink antialiased">{children}</body>
     </html>
   );
 }

@@ -7,35 +7,36 @@ export function Panel({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <section className={cn('rounded-[6px] border border-line bg-cream-flat', className)}>
-      {children}
-    </section>
-  );
+  return <section className={cn('portal-section', className)}>{children}</section>;
 }
 
 export function PanelHead({
   title,
   action,
   count,
+  description,
 }: {
   title: string;
   action?: { label: string; href: string };
   count?: string;
+  description?: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
-      <h2 className="font-display text-lg font-[450] text-primary">{title}</h2>
+    <header className="portal-section__head">
+      <div>
+        <h2 className="portal-section__title">{title}</h2>
+        {description ? <p className="portal-section__desc">{description}</p> : null}
+      </div>
       {count ? (
-        <span className="rounded-full bg-secondary-pale px-2 py-0.5 text-xs text-primary">
+        <span className="rounded-md bg-[#F4FBE3] px-2 py-0.5 font-mono text-xs font-medium text-[#1A3A2E] uppercase">
           {count}
         </span>
       ) : null}
       {action ? (
-        <a className="text-sm text-primary-soft underline-offset-2 hover:underline" href={action.href}>
+        <a className="text-xs font-semibold text-[#0E1F1A]" href={action.href}>
           {action.label}
         </a>
       ) : null}
-    </div>
+    </header>
   );
 }
