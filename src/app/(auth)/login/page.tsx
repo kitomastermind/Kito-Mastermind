@@ -1,4 +1,4 @@
-import { BrandMark } from '@/components/brand/BrandMark';
+import { BrandWordmark } from '@/components/brand/BrandMark';
 import { Eyebrow } from '@/components/kito/Eyebrow';
 import { LoginForm } from '@/app/(auth)/login/login-form';
 import { BRAND } from '@/lib/brand';
@@ -8,11 +8,9 @@ export default function LoginPage() {
   return (
     <div className="grid w-full items-center gap-10 lg:grid-cols-[1fr_minmax(0,420px)]">
       <div className="hidden lg:block">
-        <div className="flex items-center gap-3">
-          <BrandMark className="h-12 w-12" />
-          <p className="font-marketing text-3xl font-bold tracking-[-0.03em] text-[#F3FAF5]">
-            {BRAND.product}
-          </p>
+        <div className="flex flex-col gap-2">
+          <BrandWordmark className="h-12 w-auto text-[#9BA63E]" />
+          <p className="text-sm font-medium tracking-[0.14em] text-[#9BA63E]">{BRAND.tagline}</p>
         </div>
         <Eyebrow tone="onDark">Chapter circle · members only</Eyebrow>
         <h1 className="mt-6 max-w-[11ch] font-marketing text-5xl leading-[0.98] font-bold text-[#F3FAF5]">
@@ -22,17 +20,17 @@ export default function LoginPage() {
       </div>
       <div className="mx-auto w-full max-w-[420px] lg:mx-0">
         <div className="mb-6 text-center lg:hidden">
-          <BrandMark className="mx-auto h-12 w-12" />
-          <p className="mt-3 font-marketing text-2xl font-bold text-[#F3FAF5]">{BRAND.product}</p>
+          <BrandWordmark className="mx-auto h-10 w-auto text-[#9BA63E]" />
+          <p className="mt-2 text-xs font-medium tracking-[0.14em] text-[#9BA63E]">{BRAND.tagline}</p>
         </div>
-        <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
-          <h2 className="text-lg font-bold tracking-tight text-[#0E1F1A]">Sign in to your chapter</h2>
+        <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#204559]">
+          <h2 className="text-lg font-bold tracking-tight text-[#204559]">Sign in to your chapter</h2>
           <p className="mt-1 mb-5 text-sm font-medium text-[#5A6B7D]">
             Enter your member credentials, or pick a reviewer role below.
           </p>
           <LoginForm />
-          <div className="mt-2 border-t border-[#0E1F1A]/10 pt-4 text-sm text-[#5A6B7D]">
-            New to your chapter? <strong className="text-[#0E1F1A]">Request an invitation</strong> from
+          <div className="mt-2 border-t border-[#204559]/10 pt-4 text-sm text-[#5A6B7D]">
+            New to your chapter? <strong className="text-[#204559]">Request an invitation</strong> from
             your accountability partner.
           </div>
         </div>

@@ -29,12 +29,12 @@ export function PanelHead({
         {description ? <p className="portal-section__desc">{description}</p> : null}
       </div>
       {count ? (
-        <span className="rounded-md bg-[#F4FBE3] px-2 py-0.5 font-mono text-xs font-medium text-[#1A3A2E] uppercase">
+        <span className="rounded-md bg-[#EEF1D6] px-2 py-0.5 font-mono text-xs font-medium text-[#2D5F75] uppercase">
           {count}
         </span>
       ) : null}
       {action ? (
-        <Link prefetch className="text-xs font-semibold text-[#0E1F1A]" href={action.href}>
+        <Link prefetch className="text-xs font-semibold text-[#204559]" href={action.href}>
           {action.label}
         </Link>
       ) : null}

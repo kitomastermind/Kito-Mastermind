@@ -103,7 +103,7 @@ export default function Home() {
           <Reveal delay={2}>
             <aside>
               <p className="label dark">What stays private</p>
-              <p className="mt-3 text-lg font-medium text-[#0E1F1A]">
+              <p className="mt-3 text-lg font-medium text-[#204559]">
                 Name, phone, email, and notes belong to the member who logged the lead. Access is per lead,
                 revocable, and never implied by role.
               </p>
@@ -179,7 +179,7 @@ export default function Home() {
         <div className="container relative z-10">
           <Reveal>
             <p className="label dark">Ready</p>
-            <h2 className="mt-3 max-w-[14ch] font-marketing text-4xl font-bold text-[#0E1F1A]">
+            <h2 className="mt-3 max-w-[14ch] font-marketing text-4xl font-bold text-[#204559]">
               Sit down. Keep the week.
             </h2>
             <div className="mt-8">

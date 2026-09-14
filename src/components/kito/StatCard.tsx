@@ -2,16 +2,16 @@ import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const ACCENT = {
-  lime: 'bg-[#D3F36B]',
-  gold: 'bg-[#F0C419]',
-  forest: 'bg-[#0E1F1A]',
+  lime: 'bg-[#9BA63E]',
+  gold: 'bg-[#9BA63E]',
+  forest: 'bg-[#204559]',
   red: 'bg-red-600',
 } as const;
 
 const WELL = {
-  lime: 'bg-[#D3F36B]/25 text-[#0E1F1A]',
-  gold: 'bg-[#FFF8E0] text-[#8A6A00]',
-  forest: 'bg-[#0E1F1A]/10 text-[#0E1F1A]',
+  lime: 'bg-[#9BA63E]/25 text-[#204559]',
+  gold: 'bg-[#F4F6E4] text-[#5C641F]',
+  forest: 'bg-[#204559]/10 text-[#204559]',
   red: 'bg-red-50 text-red-700',
 } as const;
 
@@ -45,7 +45,7 @@ export function StatCard({
           </span>
         ) : null}
       </div>
-      <p className="mt-1 text-lg font-extrabold tracking-tight text-[#0E1F1A] sm:text-xl">
+      <p className="mt-1 text-lg font-extrabold tracking-tight text-[#204559] sm:text-xl">
         {value}
         {unit ? <span className="ml-1 text-sm font-medium text-[#5A6B7D]">{unit}</span> : null}
       </p>
@@ -53,8 +53,8 @@ export function StatCard({
         <p
           className={cn(
             'mt-1 text-[11px] font-medium',
-            subTone === 'up' && 'text-[#1A3A2E]',
-            subTone === 'warn' && 'text-[#8A6A00]',
+            subTone === 'up' && 'text-[#2D5F75]',
+            subTone === 'warn' && 'text-[#5C641F]',
             subTone === 'default' && 'text-[#5A6B7D]',
           )}
         >

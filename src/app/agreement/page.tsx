@@ -9,7 +9,7 @@ export default function AgreementPage() {
       <SiteNav />
       <main className="container max-w-2xl py-16">
         <BrandMark className="h-10 w-10" />
-        <h1 className="mt-6 font-marketing text-4xl font-bold tracking-tight text-[#0E1F1A]">
+        <h1 className="mt-6 font-marketing text-4xl font-bold tracking-tight text-[#204559]">
           {BRAND.product} member agreement
         </h1>
         <p className="mt-4 text-sm leading-6 text-[#5A6B60]">

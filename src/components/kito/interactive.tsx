@@ -20,7 +20,7 @@ export function ActionItem({
   strike?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 border-b border-[#0E1F1A]/8 px-4 py-3">
+    <div className="flex items-center gap-3 border-b border-[#204559]/8 px-4 py-3">
       <button
         type="button"
         role="checkbox"
@@ -28,8 +28,8 @@ export function ActionItem({
         aria-label={checked ? `Completed: ${title}` : `Mark complete: ${title}`}
         onClick={onToggle}
         className={cn(
-          'size-11 shrink-0 rounded-md border border-[#0E1F1A]/10',
-          checked && 'bg-[#F4FBE3]',
+          'size-11 shrink-0 rounded-md border border-[#204559]/10',
+          checked && 'bg-[#EEF1D6]',
         )}
       />
       <div className="min-w-0 flex-1">
@@ -69,8 +69,8 @@ export function FilterChipRow({
           className={cn(
             'h-11 rounded-full border px-3 text-sm',
             value === option.id
-              ? 'border-[#D3F36B] bg-[#D3F36B] text-[#0E1F1A]'
-              : 'border-[#0E1F1A]/10 text-[#5A6B7D]',
+              ? 'border-[#9BA63E] bg-[#9BA63E] text-[#204559]'
+              : 'border-[#204559]/10 text-[#5A6B7D]',
           )}
         >
           {option.label}
@@ -129,10 +129,10 @@ export function ConfirmDialog({
       <div
         role="dialog"
         aria-modal="true"
-        className="animate-fade-in w-full rounded-xl border border-[#0E1F1A]/10 bg-white p-5 sm:max-w-md"
+        className="animate-fade-in w-full rounded-xl border border-[#204559]/10 bg-white p-5 sm:max-w-md"
       >
-        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#0E1F1A]/15 sm:hidden" />
-        <h2 className="text-base font-bold text-[#0E1F1A]">{title}</h2>
+        <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[#204559]/15 sm:hidden" />
+        <h2 className="text-base font-bold text-[#204559]">{title}</h2>
         <p className="mt-2 text-sm text-[#5A6B7D]">{body}</p>
         <div className="mt-4 flex justify-end gap-2">
           <button type="button" className="btn-secondary min-h-[48px]" onClick={onClose}>

@@ -49,7 +49,7 @@ export function LoginForm() {
       data-hydrated={hydrated ? 'ready' : 'pending'}
       className="space-y-4"
     >
-      <div className="rounded-xl border border-[#0E1F1A]/10 bg-[#EEF2EE] p-3">
+      <div className="rounded-xl border border-[#204559]/10 bg-[#EEF2EE] p-3">
         <p className="text-[11px] font-semibold tracking-[0.08em] text-[#5A6B7D] uppercase">
           Reviewer logins · temporary
         </p>
@@ -63,7 +63,7 @@ export function LoginForm() {
               type="button"
               disabled={!hydrated || submitting}
               onClick={() => void fillDemo(account.email)}
-              className="rounded-full border border-[#0E1F1A]/15 bg-white px-3 py-1.5 text-sm font-semibold text-[#0E1F1A] disabled:opacity-50"
+              className="rounded-full border border-[#204559]/15 bg-white px-3 py-1.5 text-sm font-semibold text-[#204559] disabled:opacity-50"
             >
               {account.role}
             </button>
@@ -105,16 +105,16 @@ export function LoginForm() {
         </div>
       </label>
       <div className="flex items-center justify-between gap-3 text-sm">
-        <label className="flex items-center gap-2 text-[#0E1F1A]">
+        <label className="flex items-center gap-2 text-[#204559]">
           <input
             type="checkbox"
             checked={remember}
             onChange={(event) => setRemember(event.target.checked)}
-            className="size-4 rounded-[4px] border-[#0E1F1A]/20"
+            className="size-4 rounded-[4px] border-[#204559]/20"
           />
           Keep me signed in
         </label>
-        <Link prefetch href="/forgot-password" className="font-semibold text-[#0E1F1A]">
+        <Link prefetch href="/forgot-password" className="font-semibold text-[#204559]">
           Forgot password?
         </Link>
       </div>

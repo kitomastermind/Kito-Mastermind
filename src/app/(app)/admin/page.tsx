@@ -23,7 +23,7 @@ export default async function AdminPage() {
       <ul className="grid gap-3 md:grid-cols-2">
         {LINKS.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="flex min-h-11 items-center rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white px-4 text-sm font-medium text-[#0E1F1A]">
+            <Link href={link.href} className="flex min-h-11 items-center rounded-[0.625rem] border border-[#204559]/10 bg-white px-4 text-sm font-medium text-[#204559]">
               {link.label}
             </Link>
           </li>
@@ -31,12 +31,12 @@ export default async function AdminPage() {
         {actor.role === 'ADMIN' ? (
           <>
             <li>
-              <Link href="/admin/chapters" className="flex min-h-11 items-center rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white px-4 text-sm font-medium text-[#0E1F1A]">
+              <Link href="/admin/chapters" className="flex min-h-11 items-center rounded-[0.625rem] border border-[#204559]/10 bg-white px-4 text-sm font-medium text-[#204559]">
                 Chapters and dues
               </Link>
             </li>
             <li>
-              <Link href="/admin/cycles" className="flex min-h-11 items-center rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white px-4 text-sm font-medium text-[#0E1F1A]">
+              <Link href="/admin/cycles" className="flex min-h-11 items-center rounded-[0.625rem] border border-[#204559]/10 bg-white px-4 text-sm font-medium text-[#204559]">
                 Cycles
               </Link>
             </li>

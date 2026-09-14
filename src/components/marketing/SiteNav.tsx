@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Menu, X } from 'lucide-react';
-import { NavBrandMark } from '@/components/brand/BrandMark';
+import { BrandWordmark } from '@/components/brand/BrandMark';
 import { BRAND } from '@/lib/brand';
 import { cn } from '@/lib/utils';
 
@@ -37,7 +37,7 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
     };
   }, [open]);
 
-  const shadow = progress > 0.08 ? `0 8px 28px rgba(14,31,26, ${0.07 * progress})` : 'none';
+  const shadow = progress > 0.08 ? `0 8px 28px rgba(32,69,89, ${0.07 * progress})` : 'none';
   const blur = progress > 0.05 ? `blur(${12 * progress}px)` : 'none';
 
   return (
@@ -53,11 +53,8 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
         }
       >
         <div className="container nav-inner">
-          <Link href="/" className="brand">
-            <span className="brand-tile">
-              <NavBrandMark />
-            </span>
-            <span className="brand-word">{BRAND.name}</span>
+          <Link href="/" className="brand" aria-label={BRAND.name}>
+            <BrandWordmark className="brand-wordmark h-8 w-auto sm:h-9" />
           </Link>
           <nav className="nav-links">
             {LINKS.map((link) => (
@@ -85,7 +82,7 @@ export function SiteNav({ overlay = false }: { overlay?: boolean }) {
       {open ? (
         <div className="mobile-sheet">
           <div className="mb-6 flex items-center justify-between">
-            <span className="font-marketing text-lg font-bold text-white">{BRAND.product}</span>
+            <BrandWordmark className="h-7 w-auto text-[#9BA63E]" />
             <button type="button" aria-label="Close menu" className="touch-target text-white" onClick={() => setOpen(false)}>
               <X size={22} />
             </button>

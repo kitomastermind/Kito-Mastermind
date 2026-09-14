@@ -1,14 +1,14 @@
 .kito-site {
-  --forest-deep: #0a1712;
-  --forest-dark: #0e1f1a;
-  --ink: #0e1f1a;
-  --lime: #d3f36b;
-  --lime-bright: #c8f14a;
-  --gold: #f0c419;
+  --forest-deep: #163441;
+  --forest-dark: #204559;
+  --ink: #204559;
+  --lime: #9ba63e;
+  --lime-bright: #b0bb4c;
+  --gold: #9ba63e;
   --paper: #ffffff;
-  --paper-warm: #f7f8f5;
-  --line: #e3e7e0;
-  --muted-mk: #5a6b60;
+  --paper-warm: #f4f6f4;
+  --line: #dce3e6;
+  --muted-mk: #5a6e78;
   --white-80: rgba(255, 255, 255, 0.82);
   --white-60: rgba(255, 255, 255, 0.62);
   --nav-progress: 0;
@@ -94,10 +94,17 @@
   text-decoration: none;
 }
 
-.kito-site .nav.on-hero .brand-word,
+.kito-site .brand-wordmark {
+  color: var(--ink);
+}
+
+.kito-site .nav.on-hero .brand-wordmark {
+  color: color-mix(in srgb, #9ba63e calc((1 - var(--nav-progress)) * 100%), #204559 calc(var(--nav-progress) * 100%));
+}
+
 .kito-site .nav.on-hero .nav-links a,
 .kito-site .nav.on-hero .sign-in {
-  color: color-mix(in srgb, #ffffff calc((1 - var(--nav-progress)) * 100%), #0e1f1a calc(var(--nav-progress) * 100%));
+  color: color-mix(in srgb, #ffffff calc((1 - var(--nav-progress)) * 100%), #204559 calc(var(--nav-progress) * 100%));
 }
 
 .kito-site .nav-links a:hover,
@@ -126,7 +133,7 @@
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: rgba(14, 31, 26, 0.08);
+  background: rgba(32, 69, 89, 0.08);
   border: 0;
   display: none;
 }
@@ -321,7 +328,7 @@
   top: 18%;
   width: 42%;
   height: 64%;
-  border: 1px solid rgba(14, 31, 26, 0.08);
+  border: 1px solid rgba(32, 69, 89, 0.08);
   border-radius: 40% 60% 55% 45%;
   transform: rotate(-8deg);
 }
@@ -345,7 +352,7 @@
   font-family: var(--font-marketing);
   font-weight: 700;
   font-size: clamp(96px, 18vw, 220px);
-  color: rgba(14, 31, 26, 0.05);
+  color: rgba(32, 69, 89, 0.05);
   letter-spacing: -0.04em;
   line-height: 0.8;
 }
@@ -403,7 +410,7 @@
   place-items: center;
   font-family: var(--font-mono);
   font-weight: 600;
-  box-shadow: 0 0 0 8px #0e1f1a;
+  box-shadow: 0 0 0 8px #204559;
 }
 
 .mk-step h3 {
@@ -466,7 +473,7 @@
 .cta-band {
   position: relative;
   background:
-    radial-gradient(ellipse 60% 80% at 10% 120%, rgba(14, 31, 26, 0.08), transparent 50%),
+    radial-gradient(ellipse 60% 80% at 10% 120%, rgba(32, 69, 89, 0.08), transparent 50%),
     var(--lime);
   clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
   margin-top: -8px;
@@ -480,7 +487,7 @@
   width: 420px;
   height: 420px;
   border-radius: 999px;
-  background: rgba(14, 31, 26, 0.05);
+  background: rgba(32, 69, 89, 0.05);
   right: -80px;
   top: -40px;
   animation: uzimaFloat 8s ease-in-out infinite;
@@ -512,7 +519,7 @@
 }
 
 .mk-metrics div {
-  background: rgba(14, 31, 26, 0.65);
+  background: rgba(32, 69, 89, 0.65);
   padding: 36px 28px;
 }
 

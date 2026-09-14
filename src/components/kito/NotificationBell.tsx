@@ -28,11 +28,11 @@ export function NotificationBell({
       >
         <Bell size={18} strokeWidth={1.75} />
         {unreadCount > 0 ? (
-          <span className="absolute top-2 right-2 size-2 rounded-full bg-[#F0C419]" />
+          <span className="absolute top-2 right-2 size-2 rounded-full bg-[#9BA63E]" />
         ) : null}
       </button>
       {open ? (
-        <div className="absolute right-0 z-30 mt-2 w-80 rounded-xl border border-[#E3E7E0] bg-white p-3 text-[#0E1F1A] shadow-[0_18px_44px_rgba(14,31,26,0.14)]">
+        <div className="absolute right-0 z-30 mt-2 w-80 rounded-xl border border-[#E3E7E0] bg-white p-3 text-[#204559] shadow-[0_18px_44px_rgba(32,69,89,0.14)]">
           <p className="text-[11px] font-bold tracking-wide text-[#5A6B7D] uppercase">Today</p>
           {items.length === 0 ? (
             <p className="mt-2 text-sm text-[#5A6B7D]">You are caught up.</p>
@@ -55,7 +55,7 @@ export function NotificationBell({
               ))}
             </ul>
           )}
-          <Link href="/notifications" className="mt-3 block text-sm font-semibold text-[#0E1F1A]">
+          <Link href="/notifications" className="mt-3 block text-sm font-semibold text-[#204559]">
             Open inbox
           </Link>
         </div>

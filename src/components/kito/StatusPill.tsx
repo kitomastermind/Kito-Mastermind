@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
 
 const TONES = {
-  paid: 'bg-[#F4FBE3] text-[#1A3A2E]',
-  pending: 'bg-[#FFF8E0] text-[#8A6A00]',
-  due: 'bg-[#FFF8E0] text-[#8A6A00]',
+  paid: 'bg-[#EEF1D6] text-[#2D5F75]',
+  pending: 'bg-[#F4F6E4] text-[#5C641F]',
+  due: 'bg-[#F4F6E4] text-[#5C641F]',
   overdue: 'bg-red-50 text-red-700',
-  verify: 'bg-[#F4FBE3] text-[#1A3A2E]',
-  completed: 'bg-[#F4FBE3] text-[#1A3A2E]',
+  verify: 'bg-[#EEF1D6] text-[#2D5F75]',
+  completed: 'bg-[#EEF1D6] text-[#2D5F75]',
   neutral: 'bg-[#F7FAF6] text-[#5A6B7D]',
 } as const;
 

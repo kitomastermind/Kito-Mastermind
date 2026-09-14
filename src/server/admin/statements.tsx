@@ -9,9 +9,9 @@ import type { ActionResult } from '@/server/actions/result';
 import { formatNairobiDate } from '@/lib/format';
 
 const styles = StyleSheet.create({
-  page: { backgroundColor: '#EEF2EE', padding: 36, fontSize: 11, color: '#0E1F1A' },
-  eyebrow: { color: '#8A6A00', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase' },
-  title: { color: '#0E1F1A', fontSize: 22, marginTop: 8, marginBottom: 16 },
+  page: { backgroundColor: '#EEF2EE', padding: 36, fontSize: 11, color: '#204559' },
+  eyebrow: { color: '#5C641F', fontSize: 9, letterSpacing: 2, textTransform: 'uppercase' },
+  title: { color: '#204559', fontSize: 22, marginTop: 8, marginBottom: 16 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E3E7E0',
   },
   muted: { color: '#5A6B7D', fontSize: 10 },
-  total: { color: '#0E1F1A', fontSize: 14, marginTop: 12 },
+  total: { color: '#204559', fontSize: 14, marginTop: 12 },
 });
 
 function StatementDoc({

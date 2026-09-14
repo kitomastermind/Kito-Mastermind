@@ -31,8 +31,8 @@ export default function ForgotPasswordPage() {
           <Eyebrow tone="onDark">Chapter circle · members only</Eyebrow>
         </div>
       </div>
-      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
-        <h1 className="text-lg font-bold text-[#0E1F1A]">Reset your password</h1>
+      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#204559]">
+        <h1 className="text-lg font-bold text-[#204559]">Reset your password</h1>
         <p className="mt-1 mb-5 text-sm text-[#5A6B7D]">
           Enter the email on your invitation. We will send a reset link if the account exists.
         </p>
@@ -54,7 +54,7 @@ export default function ForgotPasswordPage() {
             {notice}
           </p>
         </form>
-        <Link prefetch href="/login" className="mt-2 inline-block text-sm font-semibold text-[#0E1F1A]">
+        <Link prefetch href="/login" className="mt-2 inline-block text-sm font-semibold text-[#204559]">
           Back to sign in
         </Link>
       </div>

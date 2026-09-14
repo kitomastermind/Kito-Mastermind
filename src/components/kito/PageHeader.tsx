@@ -17,7 +17,7 @@ export function PageHeader({
     <header className="page-hero">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-2.5">
-          <span className="mt-1.5 h-4 w-1 shrink-0 rounded-full bg-[#D3F36B]" aria-hidden />
+          <span className="mt-1.5 h-4 w-1 shrink-0 rounded-full bg-[#9BA63E]" aria-hidden />
           <div>
             <h1 className="font-display text-base leading-tight font-bold tracking-tight text-white sm:text-lg">
               {title}

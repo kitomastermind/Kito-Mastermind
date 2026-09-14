@@ -145,7 +145,7 @@ export function PortalShell({
           </nav>
           <div className="mx-3 my-2 h-px shrink-0 bg-white/8" />
           <div className="flex shrink-0 items-center gap-2 px-3 pb-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#D3F36B] text-xs font-bold text-[#0E1F1A]">
+            <span className="flex h-8 w-8 items-center justify-center rounded-md bg-[#9BA63E] text-xs font-bold text-[#204559]">
               {initial}
             </span>
             <div className="min-w-0 flex-1">
@@ -166,14 +166,14 @@ export function PortalShell({
             <button
               type="button"
               aria-label="Open menu"
-              className="touch-target text-[#0E1F1A]"
+              className="touch-target text-[#204559]"
               onClick={() => setMoreOpen(true)}
             >
               <Menu size={20} />
             </button>
             <Link href="/dashboard" prefetch onClick={() => go('/dashboard')} className="flex flex-1 items-center gap-2">
               <BrandMark className="h-8 w-8" />
-              <span className="text-sm font-bold text-[#0E1F1A]">{BRAND.name}</span>
+              <span className="text-sm font-bold text-[#204559]">{BRAND.name}</span>
             </Link>
             {mobileBell}
           </header>
@@ -199,7 +199,7 @@ export function PortalShell({
                   onClick={() => go(item.href)}
                   className="flex min-h-[52px] flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-[#5A6B7D]"
                 >
-                  <span className={cn('rounded-md p-1', active && 'bg-[#D3F36B]/25 text-[#0E1F1A]')}>
+                  <span className={cn('rounded-md p-1', active && 'bg-[#9BA63E]/25 text-[#204559]')}>
                     <Icon size={18} strokeWidth={1.5} />
                   </span>
                   {item.short ?? item.label}

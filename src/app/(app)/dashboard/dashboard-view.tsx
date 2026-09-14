@@ -123,17 +123,17 @@ export function DashboardView({ model }: { model: DashboardModel }) {
               />
             )}
           </Panel>
-          <Panel className="relative overflow-hidden bg-[#0E1F1A] text-[#F3FAF5]">
+          <Panel className="relative overflow-hidden bg-[#204559] text-[#F3FAF5]">
             <div className="relative p-4">
               {model.topic ? (
                 <>
-                  <p className="font-marketing text-[12px] font-semibold tracking-[0.16em] text-[#D3F36B] uppercase">
+                  <p className="font-marketing text-[12px] font-semibold tracking-[0.16em] text-[#9BA63E] uppercase">
                     This month
                   </p>
                   <h2 className="mt-2 text-lg font-bold tracking-tight">{model.topic.title}</h2>
                   <p className="mt-2 text-sm text-white/75">{model.topic.prompt}</p>
                   {model.topic.topHeadline && model.topic.topAuthor ? (
-                    <blockquote className="mt-4 border-l-[3px] border-[#D3F36B] pl-3 text-sm">
+                    <blockquote className="mt-4 border-l-[3px] border-[#9BA63E] pl-3 text-sm">
                       “{model.topic.topHeadline}” — {model.topic.topAuthor}
                     </blockquote>
                   ) : null}

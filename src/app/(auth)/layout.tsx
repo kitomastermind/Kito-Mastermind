@@ -2,7 +2,7 @@ import { AUTH_SHADE, BRAND } from '@/lib/brand';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed inset-0 bg-[#0E1F1A]">
+    <div className="fixed inset-0 bg-[#204559]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={BRAND.photos.auth}

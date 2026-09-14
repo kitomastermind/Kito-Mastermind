@@ -2,17 +2,17 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import React, { type ReactElement } from 'react';
 
-const FOREST = '#0E1F1A';
-const FOREST_SOFT = '#1A3A2E';
-const LIME = '#D3F36B';
-const GOLD = '#F0C419';
+const FOREST = '#204559';
+const FOREST_SOFT = '#2D5F75';
+const LIME = '#9BA63E';
+const GOLD = '#9BA63E';
 const PAPER = '#F3FAF5';
 const MUTED = '#B7C4BC';
 
 const MARK_SRC =
   'data:image/svg+xml;charset=utf-8,' +
   encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#071410"/><path d="M13 11v18M13 20L27.5 11.2M13 20L27.5 28.8" stroke="#F3FAF5" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="29.5" cy="11" r="3.4" fill="#D3F36B"/></svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="8" fill="#204559"/><g fill="none" stroke="#9BA63E" stroke-width="2.2" stroke-linecap="butt"><path d="M13 10v20"/><path d="M18.5 10L28 10L19.5 20"/><path d="M13 20L28 30"/></g></svg>`,
   );
 
 export async function loadOgFonts() {
@@ -65,8 +65,8 @@ function Wordmark({ mark, titleSize, subSize }: { mark: number; titleSize: numbe
             fontFamily: 'Plus Jakarta Sans',
             fontSize: titleSize,
             fontWeight: 800,
-            color: PAPER,
-            letterSpacing: -2,
+            color: LIME,
+            letterSpacing: 6,
             lineHeight: 1,
           }}
         >
@@ -76,15 +76,15 @@ function Wordmark({ mark, titleSize, subSize }: { mark: number; titleSize: numbe
           style={{
             display: 'flex',
             fontFamily: 'Plus Jakarta Sans',
-            fontSize: subSize,
-            fontWeight: 800,
-            color: LIME,
-            letterSpacing: -1,
-            lineHeight: 1.05,
-            marginTop: 4,
+            fontSize: Math.round(subSize * 0.72),
+            fontWeight: 600,
+            color: MUTED,
+            letterSpacing: 1,
+            lineHeight: 1.2,
+            marginTop: 8,
           }}
         >
-          Mastermind
+          Real People. Exceptional Results.
         </div>
       </div>
     </div>

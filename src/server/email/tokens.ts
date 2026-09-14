@@ -3,14 +3,14 @@ import { siteOrigin } from '@/lib/seo';
 export const EMAIL = {
   product: 'KITO Mastermind',
   eyebrow: 'CHAPTER NETWORK · MEMBERS ONLY',
-  forest: '#0E1F1A',
-  forestSoft: '#1A3A2E',
-  lime: '#D3F36B',
-  gold: '#F0C419',
-  cream: '#EEF2EE',
+  forest: '#204559',
+  forestSoft: '#2D5F75',
+  lime: '#9BA63E',
+  gold: '#9BA63E',
+  cream: '#EEF2F3',
   paper: '#FFFFFF',
-  ink: '#0E1F1A',
-  muted: '#5A6B7D',
+  ink: '#204559',
+  muted: '#5A6E78',
   footer:
     "A client's name, phone and email stay with the member who logged them. Membership is by invitation only.",
 } as const;

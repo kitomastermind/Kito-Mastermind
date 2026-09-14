@@ -1,6 +1,6 @@
 export const SITE_NAME = 'KITO Mastermind';
 
-export const SITE_TAGLINE = 'The private accountability circle for production chapters.';
+export const SITE_TAGLINE = 'Real People. Exceptional Results.';
 
 export const SITE_DESCRIPTION =
   'Invitation-only chapters for Kenyan production agents. Members keep promises and match work — client names stay with the member who logged them.';

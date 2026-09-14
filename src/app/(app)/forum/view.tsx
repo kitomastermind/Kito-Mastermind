@@ -30,11 +30,11 @@ export function ForumView({
   return (
     <div className="portal-split--aside">
       <div className="flex flex-col gap-3">
-        <Panel className="relative overflow-hidden bg-[#0E1F1A] text-[#F3FAF5]">
+        <Panel className="relative overflow-hidden bg-[#204559] text-[#F3FAF5]">
           <div className="relative p-5">
             {topic ? (
               <>
-                <p className="font-marketing text-[12px] font-semibold tracking-[0.16em] text-[#D3F36B] uppercase">
+                <p className="font-marketing text-[12px] font-semibold tracking-[0.16em] text-[#9BA63E] uppercase">
                   {formatNairobiDate(topic.month, 'MMMM')} Topic
                 </p>
                 <h2 className="mt-2 text-lg font-bold tracking-tight">{topic.title}</h2>

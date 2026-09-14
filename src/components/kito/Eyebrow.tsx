@@ -12,8 +12,8 @@ export function Eyebrow({
       className={cn(
         'font-marketing text-[12px] font-semibold tracking-[0.16em] uppercase',
         tone === 'muted' && 'text-[#5A6B7D]',
-        tone === 'secondary' && 'text-[#3B7A4E]',
-        tone === 'onDark' && 'text-[#D3F36B]',
+        tone === 'secondary' && 'text-[#204559]',
+        tone === 'onDark' && 'text-[#9BA63E]',
       )}
     >
       {children}

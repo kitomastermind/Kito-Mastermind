@@ -22,7 +22,7 @@ export function MatchCard({
 }) {
   const strong = score >= 80;
   return (
-    <article className="rounded-[0.625rem] border border-[#0E1F1A]/10 bg-white p-4">
+    <article className="rounded-[0.625rem] border border-[#204559]/10 bg-white p-4">
       <p className="text-sm text-ink">Existing lead by {ownerName}</p>
       <p className="text-xs text-muted">
         Logged {loggedAt} · {chapterName} Chapter

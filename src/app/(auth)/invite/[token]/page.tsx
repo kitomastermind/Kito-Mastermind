@@ -22,8 +22,8 @@ export default async function InvitePage({
       <div className="mb-6 text-center">
         <Eyebrow tone="onDark">Chapter circle · members only</Eyebrow>
       </div>
-      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#0E1F1A]">
-        <h1 className="text-lg font-bold text-[#0E1F1A]">
+      <div className="shadow-login rounded-2xl bg-white p-6 text-left text-[#204559]">
+        <h1 className="text-lg font-bold text-[#204559]">
           Join your chapter
         </h1>
         {invitation.state === 'valid' ? (
